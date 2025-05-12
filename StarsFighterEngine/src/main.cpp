@@ -1,4 +1,6 @@
 #include <QCoreApplication>
+#include <SFML/Graphics.hpp>
+#include "framework/StarsFighter.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +16,8 @@ int main(int argc, char *argv[])
 
     // If you do not need a running Qt event loop, remove the call
     // to a.exec() or use the Non-Qt Plain C++ Application template.
-    qInfo() << "Hello world!";
 
-    return a.exec();
+    std::unique_ptr<StarsFigher::StarsFigherGame> Game = std::make_unique<StarsFigher::StarsFigherGame>();
+    Game->RunGame();
+    //return a.exec();
 }

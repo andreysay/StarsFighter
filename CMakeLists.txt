@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.28)
 
 project(StarsFighter VERSION 0.9.0 LANGUAGES CXX)
 
@@ -8,29 +8,25 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core LinguistTools)
 
-set(TS_FILES StarsFighter_en_US.ts)
+set(SFML_LIB_NAME SFML)
+
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.1
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(SFML)
+
 # The executable target name
+set(STARSFIGHTER_ENGINE_TARGET_NAME StarsFighterEngine)
 set(STARSFIGHTER_GAME_TARGET_NAME StarsFighterGame)
 
-# add_executable(StarsFighterGame
-
-#   ${TS_FILES}
-# )
-# target_link_libraries(StarsFighterGame Qt${QT_VERSION_MAJOR}::Core)
-
-# if(COMMAND qt_create_translation)
-#     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-# else()
-#     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-# endif()
-
-# include(GNUInstallDirs)
-# install(TARGETS StarsFighterGame
-#     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-# )
-add_subdirectory(StarsFighter)
+add_subdirectory(StarsFighterEngine)
+add_subdirectory(StarsFighterGame)
