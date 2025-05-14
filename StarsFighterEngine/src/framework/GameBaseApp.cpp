@@ -1,6 +1,8 @@
 #include "framework/GameBaseApp.hpp"
+
 #include <qdebug.h>
 #include <qlogging.h>
+#include <QCoreApplication>
 
 namespace StarsFigher
 {
@@ -56,6 +58,11 @@ void GameBaseApp::TickInternal(float DeltaTime)
 {
     //qInfo() << "Ticking at framerate: " << 1.f/DeltaTime;
     Tick(DeltaTime);
+
+    if(CurrentWorld)
+    {
+        CurrentWorld->TickInternal(DeltaTime);
+    }
 }
 
 void GameBaseApp::RenderInternal()

@@ -2,10 +2,13 @@
 
 #include <QCoreApplication>
 #include "framework/GameBaseApp.hpp"
+#include "framework/Core.hpp"
+
+using namespace Helpers;
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    //QCoreApplication a(argc, argv);
 
     // Set up code that uses the Qt event loop here.
     // Call a.quit() or a.exit() to quit the application.
@@ -17,8 +20,13 @@ int main(int argc, char *argv[])
 
     // If you do not need a running Qt event loop, remove the call
     // to a.exec() or use the Non-Qt Plain C++ Application template.
+    LogLevel Loglevel = LogLevel::Debug;
+    //auto Log = CreateLogger(Loglevel);
 
-    std::unique_ptr<StarsFigher::GameBaseApp> Game = std::make_unique<StarsFigher::GameBaseApp>();
+    GLog.SetLevel(Loglevel);
+    WriteLog(GLog, Loglevel, "Game is starting up");
+    std::unique_ptr<StarsFigher::GameBaseApp> Game = GetGame();
     Game->RunGame();
+    WriteLog(GLog, Loglevel, "Game finished");
     //return a.exec();
 }

@@ -32,6 +32,12 @@ add_library(${STARSFIGHTER_ENGINE_TARGET_NAME} STATIC
   src/framework/GameBaseApp.cpp
   include/GameEntry.hpp
   src/GameEntry.cpp
+  include/framework/Core.hpp
+  src/framework/Core.cpp
+  src/helpers/Logger.cpp
+  include/helpers/Logger.hpp
+  include/framework/World.hpp
+  src/framework/World.cpp
 )
 
 target_include_directories(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC
