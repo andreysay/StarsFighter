@@ -2,12 +2,12 @@
 #include <memory>
 
 
-namespace StarsFigher
+namespace SF
 {
 
     class GameBaseApp;
 
 }
 
-extern std::unique_ptr<StarsFigher::GameBaseApp> GetGame();
+extern std::unique_ptr<SF::GameBaseApp> GetGame();
 

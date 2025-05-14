@@ -1,20 +1,35 @@
 #include "GameFramework/StarsFighterGame.hpp"
 #include "framework/World.hpp"
 #include "framework/GameBaseApp.hpp"
-#include <memory>
+#include "framework/Core.hpp"
 
 
 
-std::unique_ptr<StarsFigher::GameBaseApp> GetGame()
+std::unique_ptr<SF::GameBaseApp> GetGame()
 {
-    return std::make_unique<StarsFigher::StarsFigherGame>();
+    return std::make_unique<SF::StarsFigherGame>();
 }
 
-namespace StarsFigher
+namespace SF
 {
-StarsFigherGame::StarsFigherGame()
+    StarsFigherGame::StarsFigherGame()
+		: GameBaseApp{ Vector2u{600, 980}, std::string{"Stars Fighter"}, sf::Style::Titlebar | sf::Style::Close }
 {
-    LoadWorld<World>();
+    std::weak_ptr<World> WeakNewWorld = LoadWorld<World>();
+    if (auto NewWorld = WeakNewWorld.lock())
+    {
+        const std::filesystem::path FilePath = "E:/sources/StarsFighter/StarsFighterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png";
+		auto SpaceShip = NewWorld->SpawnActor<Actor>();
+		if (auto SpaceShipPtr = SpaceShip.lock())
+		{
+			SpaceShipPtr->SetTexture(FilePath);
+			SpaceShipPtr->SetName("SpaceShip");
+		}
+	}
+	else
+	{
+		WriteLog(GLog, GLoglevel, "Failed to load world");
+    }
 }
 
 }

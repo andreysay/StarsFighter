@@ -2,8 +2,6 @@
 
 #include <fstream>
 #include <cassert>
-#include <qdebug.h>
-#include <qlogging.h>
 #include <thread>
 #include <queue>
 #include <iostream>
@@ -74,10 +72,12 @@ struct Logger::Logger_impl {
 
     ~Logger_impl() {
         bActive.store(false, std::memory_order_relaxed);
-        std::scoped_lock Lock{ Mutex };
+        {
+            std::scoped_lock Lock{ Mutex };
+        }
         MessagePending.notify_all();
 
-        WriterThread.detach();
+        WriterThread.join();
     }
 
     void write_pending_message() {
@@ -93,7 +93,7 @@ struct Logger::Logger_impl {
         std::queue<std::string> TakenMessages{ std::move(Messages) };
         Lock.unlock();
 
-        qInfo() << "Taken " << TakenMessages.size() << " messages";
+        std::cout << "Taken " << TakenMessages.size() << " messages" << std::endl;
 
         while (!TakenMessages.empty()) {
 
@@ -101,7 +101,7 @@ struct Logger::Logger_impl {
             TakenMessages.pop();
 
             Stream << Message << std::endl;
-            qInfo() << Message;
+            std::cout << Message << std::endl;
         }
     }
 
@@ -131,7 +131,7 @@ Logger Logger::GetLogger() {
     if (!Singleton.Impl) {
         auto Impl = std::make_shared<Logger::Logger_impl>();
         //std::string LogFileName = GetNowTimeString(true) + std::string{"log.txt"};
-        qInfo() << "Log file name is " << std::string{LogFile};
+        std::cout << "Log file name is " << std::string{LogFile} << std::endl;
         Impl->Stream.open(std::string{LogFile}, std::ios_base::app);
         if (!Impl->Stream.is_open()) {
             throw std::runtime_error{ "Cannot open a log" };

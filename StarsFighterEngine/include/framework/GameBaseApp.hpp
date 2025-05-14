@@ -5,13 +5,13 @@
 
 using namespace sf;;
 
-namespace StarsFigher
+namespace SF
 {
 
     class GameBaseApp
     {
     public:
-        GameBaseApp();
+        GameBaseApp(Vector2u WinSize, const std::string& Title, std::uint32_t Style);
         void RunGame();
 
     template<typename WorldType>
@@ -35,7 +35,7 @@ namespace StarsFigher
     template<typename WorldType>
     inline std::weak_ptr<WorldType> GameBaseApp::LoadWorld()
     {
-        std::shared_ptr<WorldType> NewWorld = std::make_shared<WorldType>(this);
+        std::shared_ptr<WorldType> NewWorld{ new WorldType{this} };
         CurrentWorld = NewWorld;
         CurrentWorld->BeginPlayInternal();
         return NewWorld;

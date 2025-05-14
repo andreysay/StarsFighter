@@ -1,18 +1,14 @@
 #include "framework/GameBaseApp.hpp"
 
-#include <qdebug.h>
-#include <qlogging.h>
-#include <QCoreApplication>
-
-namespace StarsFigher
+namespace SF
 {
 
 const Vector2u WindowSize{1024, 1440};
 const std::string_view GameTitle{"StarsFigher"};
 
-GameBaseApp::GameBaseApp()
+GameBaseApp::GameBaseApp(Vector2u WinSize, const std::string& Title, std::uint32_t Style)
 {
-    GameWindow = std::make_unique<RenderWindow>(VideoMode{WindowSize}, std::string{GameTitle});
+    GameWindow = std::make_unique<RenderWindow>(VideoMode{ WinSize }, std::string{ Title }, Style);
 }
 
 void GameBaseApp::RunGame()
@@ -42,11 +38,15 @@ void GameBaseApp::RunGame()
 
 void GameBaseApp::Render()
 {
-    RectangleShape Rect{{200, 200}};
-    Rect.setFillColor(Color::Green);
-    Rect.setPosition({GameWindow->getSize().x*0.5f, GameWindow->getSize().y*0.5f});
-    Rect.setOrigin({50.f,50.f});
-    GameWindow->draw(Rect);
+    //RectangleShape Rect{{200, 200}};
+    //Rect.setFillColor(Color::Green);
+    //Rect.setPosition({GameWindow->getSize().x*0.5f, GameWindow->getSize().y*0.5f});
+    //Rect.setOrigin({50.f,50.f});
+    //GameWindow->draw(Rect);
+	if (CurrentWorld)
+	{
+		CurrentWorld->Render(*GameWindow);
+	}
 }
 
 void GameBaseApp::Tick(float DeltaTime)

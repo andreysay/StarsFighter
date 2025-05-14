@@ -2,7 +2,7 @@
 
 #include <framework/GameBaseApp.hpp>
 
-namespace StarsFigher
+namespace SF
 {
     class StarsFigherGame : public GameBaseApp
     {
