@@ -30,6 +30,8 @@ namespace SF
         std::shared_ptr<World> CurrentWorld = nullptr;
         float TargetFrameRate{60.f};
         Clock TickClock{};
+        sf::Clock CleanCycleClock;
+		float CleanCycleInterval{ 2.f };
     };
 
     template<typename WorldType>

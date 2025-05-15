@@ -1,4 +1,5 @@
 #include "framework/GameBaseApp.hpp"
+#include "framework/AssetManager.hpp"
 
 namespace SF
 {
@@ -63,6 +64,13 @@ void GameBaseApp::TickInternal(float DeltaTime)
     {
         CurrentWorld->TickInternal(DeltaTime);
     }
+
+	// Cleanup unused assets
+	if (CleanCycleClock.getElapsedTime().asSeconds() > CleanCycleInterval)
+	{
+		CleanCycleClock.restart();
+		AssetManager::Get().CleanCycle();
+	}
 }
 
 void GameBaseApp::RenderInternal()

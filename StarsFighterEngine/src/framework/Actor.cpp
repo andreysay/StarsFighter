@@ -1,6 +1,7 @@
 #include "framework/Actor.hpp"
 #include "framework/Core.hpp"
 #include "framework/World.hpp"
+#include "framework/AssetManager.hpp"
 
 namespace SF
 {
@@ -53,18 +54,20 @@ namespace SF
 	}
 	void Actor::SetTexture(const std::filesystem::path& FilePath)
 	{
-		if (!ActorTexture.loadFromFile(FilePath))
+		auto ActorTexturePtr = AssetManager::Get().LoadTexture(FilePath);
+		if (!ActorTexturePtr)
 		{
-			std::string Message = "Failed to load texture from file: " + FilePath.string();
+			std::string Message = "Actor " + GetName() + "Failed to load texture from file: " + FilePath.string();
 			Helpers::WriteLog(GLog, Helpers::LogLevel::Error, Message);
 		}
 		else
 		{
+			ActorTexture = *ActorTexturePtr;
 			ActorSprite.setTexture(ActorTexture);
 			ActorSprite.setTextureRect(sf::IntRect{ sf::Vector2i{0, 0},
 				sf::Vector2i{static_cast<int>(ActorTexture.getSize().x), static_cast<int>(ActorTexture.getSize().y)} });
 			ActorSprite.setOrigin({ 0.f, 0.f});
-			std::string Message = "Texture loaded successfully from file: " + FilePath.string();
+			std::string Message = "Actor " + GetName() + "Texture loaded successfully from file: " + FilePath.string();
 			Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 		}
 	}
@@ -75,5 +78,30 @@ namespace SF
 			return;
 		}
 		Window.draw(ActorSprite);
+	}
+	void Actor::SetActorLocation(const sf::Vector2f& Location)
+	{
+		ActorSprite.setPosition(Location);
+	}
+	void Actor::SetActorRotation(float Rotation)
+	{
+		ActorSprite.setRotation(sf::degrees( Rotation ));
+	}
+	void Actor::AddActorLocationOffset(const sf::Vector2f& Offset)
+	{
+		SetActorLocation(GetActorLocation() + Offset);
+	}
+	void Actor::AddActorRotationOffset(float Offset)
+	{
+		SetActorRotation(GetActorRotation() + Offset);
+	}
+	sf::Vector2f Actor::GetActorLocation() const
+	{
+		return ActorSprite.getPosition();
+	}
+	float Actor::GetActorRotation() const
+	{
+		sf::Angle Rotation = ActorSprite.getRotation();
+		return Rotation.asDegrees();
 	}
 }

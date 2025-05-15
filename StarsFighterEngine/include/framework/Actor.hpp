@@ -27,6 +27,13 @@ namespace SF
 		const std::string& GetName() const;
 		void SetTexture(const std::filesystem::path& FilePath);
 		void Render(sf::RenderWindow& Window);
+		void SetActorLocation(const sf::Vector2f& Location);
+		void SetActorRotation(float Rotation);
+		void AddActorLocationOffset(const sf::Vector2f& Offset);
+		void AddActorRotationOffset(float Offset);
+		sf::Vector2f GetActorLocation() const;
+		float GetActorRotation() const;
+
 	private:
 		World* WorldOwningActor = nullptr;
 		std::string Name{};

@@ -2,6 +2,7 @@
 #include "framework/World.hpp"
 #include "framework/GameBaseApp.hpp"
 #include "framework/Core.hpp"
+#include "Config.h"
 
 
 
@@ -18,7 +19,8 @@ namespace SF
     std::weak_ptr<World> WeakNewWorld = LoadWorld<World>();
     if (auto NewWorld = WeakNewWorld.lock())
     {
-        const std::filesystem::path FilePath = "E:/sources/StarsFighter/StarsFighterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png";
+        //const std::filesystem::path FilePath = "E:/sources/StarsFighter/StarsFighterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png";
+        const std::filesystem::path FilePath = GetResourceDir() + "SpaceShooterRedux/PNG/playerShip1_blue.png";
 		auto SpaceShip = NewWorld->SpawnActor<Actor>();
 		if (auto SpaceShipPtr = SpaceShip.lock())
 		{
