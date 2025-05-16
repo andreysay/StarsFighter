@@ -22,7 +22,7 @@ namespace SF
 		}
 
 		auto NewTexture = std::make_shared<sf::Texture>();
-		if (NewTexture->loadFromFile(FilePath))
+		if (NewTexture->loadFromFile(RootDirectory.concat(FilePath.c_str())))
 		{
 			LoadedTextures[FilePath.string()] = NewTexture;
 			return NewTexture;
@@ -47,7 +47,15 @@ namespace SF
 			}
 		}
 	}
+	void AssetManager::SetAssetRootDirectory(const std::filesystem::path& AssetRootDirectory)
+	{
+		RootDirectory = AssetRootDirectory;
+	}
 	AssetManager::AssetManager()
+		: LoadedTextures{}
+		, RootDirectory{}
+		//, Fonts{}
+		//, Sounds{}
 	{
 	}
 	

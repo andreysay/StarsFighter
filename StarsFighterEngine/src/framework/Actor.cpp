@@ -2,6 +2,8 @@
 #include "framework/Core.hpp"
 #include "framework/World.hpp"
 #include "framework/AssetManager.hpp"
+#include <math.h>
+#include <numbers>
 
 namespace SF
 {
@@ -69,6 +71,7 @@ namespace SF
 			ActorSprite.setOrigin({ 0.f, 0.f});
 			std::string Message = "Actor " + GetName() + "Texture loaded successfully from file: " + FilePath.string();
 			Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
+			CenterPivot();
 		}
 	}
 	void Actor::Render(sf::RenderWindow& Window)
@@ -99,9 +102,28 @@ namespace SF
 	{
 		return ActorSprite.getPosition();
 	}
-	float Actor::GetActorRotation() const
+	float Actor::GetActorRotation(bool bIsRadians) const
 	{
-		sf::Angle Rotation = ActorSprite.getRotation();
-		return Rotation.asDegrees();
+		if (bIsRadians)
+		{
+			return ActorSprite.getRotation().asRadians();
+		}
+
+		return ActorSprite.getRotation().asDegrees();
+	}
+	sf::Vector2f Actor::GetActorForwardDirection() const
+	{
+		float Rotation = GetActorRotation(true);
+		return sf::Vector2f(std::cosf(Rotation), std::sinf(Rotation));
+	}
+	sf::Vector2f Actor::GetActorRightDirection() const
+	{
+		float Rotation = GetActorRotation(true) + std::numbers::pi_v<float> / 2.f;
+		return sf::Vector2f(std::cosf(Rotation), std::sinf(Rotation));
+	}
+	void Actor::CenterPivot()
+	{
+		sf::FloatRect Bounds = ActorSprite.getGlobalBounds();
+		ActorSprite.setOrigin(Bounds.getCenter());
 	}
 }

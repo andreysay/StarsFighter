@@ -11,10 +11,16 @@ namespace SF
 	class AssetManager
 	{
 	public:
+		// Get the singleton instance of AssetManager
 		static AssetManager& Get();
+
+	public:
 		std::shared_ptr<sf::Texture> LoadTexture(const std::filesystem::path& FilePath);
 		void CleanCycle();
+		void SetAssetRootDirectory(const std::filesystem::path& AssetRootDirectory);
 
+		AssetManager(const AssetManager&) = delete;
+		AssetManager& operator=(const AssetManager&) = delete;
 		~AssetManager() = default;
 	protected:
 		AssetManager();
@@ -29,5 +35,6 @@ namespace SF
 		std::unordered_map<std::string, std::shared_ptr<sf::Texture> > LoadedTextures;
 		//std::unordered_map<std::string, sf::Font> Fonts;
 		//std::unordered_map<std::string, sf::SoundBuffer> Sounds;
+		std::filesystem::path RootDirectory;
 	};
 }

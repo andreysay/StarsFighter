@@ -2,6 +2,9 @@
 #include "framework/World.hpp"
 #include "framework/GameBaseApp.hpp"
 #include "framework/Core.hpp"
+#include "Spaceship/Spaceship.hpp"
+#include "framework/AssetManager.hpp"
+#include "Player/PlayerSpaceship.hpp"
 #include "Config.h"
 
 
@@ -15,23 +18,26 @@ namespace SF
 {
     StarsFigherGame::StarsFigherGame()
 		: GameBaseApp{ Vector2u{600, 980}, std::string{"Stars Fighter"}, sf::Style::Titlebar | sf::Style::Close }
-{
-    std::weak_ptr<World> WeakNewWorld = LoadWorld<World>();
-    if (auto NewWorld = WeakNewWorld.lock())
-    {
-        //const std::filesystem::path FilePath = "E:/sources/StarsFighter/StarsFighterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png";
-        const std::filesystem::path FilePath = GetResourceDir() + "SpaceShooterRedux/PNG/playerShip1_blue.png";
-		auto SpaceShip = NewWorld->SpawnActor<Actor>();
-		if (auto SpaceShipPtr = SpaceShip.lock())
+	{
+		// Set the asset root directory
+		AssetManager::Get().SetAssetRootDirectory(GetResourceDir());
+		std::weak_ptr<World> WeakNewWorld = LoadWorld<World>();
+		if (auto NewWorld = WeakNewWorld.lock())
 		{
-			SpaceShipPtr->SetTexture(FilePath);
-			SpaceShipPtr->SetName("SpaceShip");
+			//const std::filesystem::path FilePath = "E:/sources/StarsFighter/StarsFighterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png";
+			const std::filesystem::path FilePath = "SpaceShooterRedux/PNG/playerShip1_blue.png";
+			auto SpaceShip = NewWorld->SpawnActor<PlayerSpaceship>();
+			if (auto SpaceShipPtr = SpaceShip.lock())
+			{
+				SpaceShipPtr->SetTexture(PlayerSpaceshipTexturePath);
+				SpaceShipPtr->SetActorLocation({ 300.f, 480.f });
+				SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, -200.f));
+			}
+		}
+		else
+		{
+			WriteLog(GLog, GLoglevel, "Failed to load world");
 		}
 	}
-	else
-	{
-		WriteLog(GLog, GLoglevel, "Failed to load world");
-    }
-}
 
 }

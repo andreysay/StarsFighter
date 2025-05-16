@@ -32,7 +32,12 @@ namespace SF
 		void AddActorLocationOffset(const sf::Vector2f& Offset);
 		void AddActorRotationOffset(float Offset);
 		sf::Vector2f GetActorLocation() const;
-		float GetActorRotation() const;
+		float GetActorRotation(bool bIsRadians = false) const;
+		sf::Vector2f GetActorForwardDirection() const;
+		sf::Vector2f GetActorRightDirection() const;
+
+	private:
+		void CenterPivot();
 
 	private:
 		World* WorldOwningActor = nullptr;

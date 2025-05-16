@@ -9,7 +9,11 @@ add_executable(${STARSFIGHTER_GAME_TARGET_NAME}
   include/GameFramework/StarsFighterGame.hpp
   src/GameFramework/StarsFighterGame.cpp
 
-)
+  include/Spaceship/Spaceship.hpp
+  src/Spaceship/Spaceship.cpp 
+  
+  include/Player/PlayerSpaceship.hpp
+  src/Player/PlayerSpaceship.cpp)
 
 target_include_directories(${STARSFIGHTER_GAME_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
