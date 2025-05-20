@@ -13,6 +13,7 @@ namespace SF
     public:
         GameBaseApp(Vector2u WinSize, const std::string& Title, std::uint32_t Style);
         void RunGame();
+		Vector2u GetWindowSize() const;
 
     template<typename WorldType>
     std::weak_ptr<WorldType> LoadWorld();

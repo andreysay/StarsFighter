@@ -16,6 +16,7 @@ namespace SF
         void BeginPlayInternal();
         void TickInternal(float DeltaTime);
         void Render(sf::RenderWindow& Window);
+        sf::Vector2u GetWindowSize() const;
 
         template<typename ActorType>
 		std::weak_ptr<ActorType> SpawnActor(const std::string& Name = "Actor");

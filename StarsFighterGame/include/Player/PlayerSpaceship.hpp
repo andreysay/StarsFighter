@@ -16,6 +16,7 @@ namespace SF
 		void HandleInput(float DeltaTime);
 		void Move(float DeltaTime);
 		void Rotate(float DeltaTime);
+		void ClampInputOnEdges(sf::Vector2f& Direction);
 	private:
 		sf::Vector2f PlayerVelocity;
 		float Speed{200.f};

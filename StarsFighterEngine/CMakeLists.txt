@@ -28,7 +28,10 @@ add_library(${STARSFIGHTER_ENGINE_TARGET_NAME} STATIC
   src/framework/Object.cpp
   
   include/framework/AssetManager.hpp
-  src/framework/AssetManager.cpp)
+  src/framework/AssetManager.cpp 
+  
+  include/framework/MathUtility.hpp
+  src/framework/MathUtility.cpp)
 
 target_include_directories(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include

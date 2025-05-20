@@ -43,7 +43,7 @@ namespace SF
 	}
 	World* Actor::GetWorld() const
 	{
-		return nullptr;
+		return WorldOwningActor;
 	}
 	void Actor::SetName(const std::string& InName)
 	{

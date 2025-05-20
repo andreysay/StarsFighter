@@ -37,6 +37,11 @@ void GameBaseApp::RunGame()
     }
 }
 
+Vector2u GameBaseApp::GetWindowSize() const
+{
+	return GameWindow.get()->getSize();
+}
+
 void GameBaseApp::Render()
 {
     //RectangleShape Rect{{200, 200}};

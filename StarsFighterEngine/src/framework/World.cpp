@@ -60,6 +60,11 @@ namespace SF
         }
     }
 
+    sf::Vector2u World::GetWindowSize() const
+    {
+        return WorldOwningApp->GetWindowSize();
+    }
+
     void World::BeginPlay()
     {
 
