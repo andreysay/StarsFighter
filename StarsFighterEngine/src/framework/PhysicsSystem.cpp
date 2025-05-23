@@ -104,7 +104,17 @@ namespace SF
 	}
 	void PhysicsSystem::PhysicsBodyToRemove(b2BodyId BodyToRemove)
 	{
-		PendingBodiesToRemove.insert(BodyToRemove);
+		if (PendingBodiesToRemove.try_emplace(BodyToRemove.index1, BodyToRemove).second)
+		{
+			std::string Message = "Body to remove: " + std::to_string(BodyToRemove.index1);
+			WriteLog(GLog, GLoglevel, Message);
+			PendingBodiesToRemove.emplace(BodyToRemove.index1, BodyToRemove);
+		}
+		else
+		{
+			std::string Message = "Body already in pending removal: " + std::to_string(BodyToRemove.index1);
+			WriteLog(GLog, GLoglevel, Message);
+		}
 	}
 	PhysicsSystem::~PhysicsSystem()
 	{
@@ -165,7 +175,7 @@ namespace SF
 	}
 	void PhysicsSystem::ProcessPendingBodiesRemoval()
 	{
-		for (auto& BodyToRemove : PendingBodiesToRemove)
+		for (auto& [index, BodyToRemove] : PendingBodiesToRemove)
 		{
 			b2Body_Disable(BodyToRemove);
 		}

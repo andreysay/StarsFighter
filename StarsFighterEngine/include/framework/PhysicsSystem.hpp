@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <unordered_set>
+#include <unordered_map>
 #include <box2d/box2d.h>
 
 namespace SF
@@ -34,6 +34,6 @@ namespace SF
 		float PhysicsScale{};
 		int32_t VelocityTterations{8};
 		int32_t PositionIterations{4};
-		std::unordered_set<b2BodyId> PendingBodiesToRemove{};
+		std::unordered_map<int32_t, b2BodyId> PendingBodiesToRemove{};
 	};
 }

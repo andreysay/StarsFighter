@@ -4,6 +4,7 @@ namespace SF
 {
 	Spaceship::Spaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
 		: Actor{ InWorld, FilePath, InName }
+		, HealthComponent{ 100.f, 100.f }
 	{
 	}
 	void Spaceship::Tick(float DeltaTime)

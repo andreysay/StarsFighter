@@ -1,6 +1,7 @@
 #pragma once
 #include "framework/Actor.hpp"
 #include "framework/Core.hpp"
+#include "framework/HealthComponent.hpp"
 
 namespace SF
 {
@@ -24,5 +25,6 @@ namespace SF
 
 	private:
 		sf::Vector2f SpaceshipVelocity;
+		HealthComponent HealthComponent;
 	};
 }

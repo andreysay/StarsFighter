@@ -34,7 +34,10 @@ add_library(${STARSFIGHTER_ENGINE_TARGET_NAME} STATIC
   src/framework/MathUtility.cpp 
   
   include/framework/PhysicsSystem.hpp
-  src/framework/PhysicsSystem.cpp)
+  src/framework/PhysicsSystem.cpp
+  
+  include/framework/HealthComponent.hpp
+  src/framework/HealthComponent.cpp)
 
 target_include_directories(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
