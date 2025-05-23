@@ -18,8 +18,8 @@ namespace SF
         void Render(sf::RenderWindow& Window);
         sf::Vector2u GetWindowSize() const;
 
-        template<typename ActorType>
-		std::weak_ptr<ActorType> SpawnActor(const std::string& Name = "Actor");
+        template<typename ActorType, typename... Args>
+		std::weak_ptr<ActorType> SpawnActor(Args... InArgs);
 
     protected:
         void BeginPlay();
@@ -34,10 +34,10 @@ namespace SF
 		std::vector<std::shared_ptr<Actor>> PendingActors;
     };
 
-	template<typename ActorType>
-	inline std::weak_ptr<ActorType> World::SpawnActor(const std::string& Name)
+	template<typename ActorType, typename... Args>
+	std::weak_ptr<ActorType> World::SpawnActor(Args... InArgs)
 	{
-        std::shared_ptr<ActorType> NewActor{ new ActorType{this, Name} };
+        std::shared_ptr<ActorType> NewActor{ new ActorType(this, InArgs...) };
 		//NewActor->SetWorld(this);
 		PendingActors.push_back(NewActor);
 		return NewActor;

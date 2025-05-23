@@ -25,14 +25,23 @@ namespace SF
 		if (auto NewWorld = WeakNewWorld.lock())
 		{
 			//const std::filesystem::path FilePath = "E:/sources/StarsFighter/StarsFighterGame/assets/SpaceShooterRedux/PNG/playerShip1_blue.png";
-			const std::filesystem::path FilePath = "SpaceShooterRedux/PNG/playerShip1_blue.png";
-			auto SpaceShip = NewWorld->SpawnActor<PlayerSpaceship>();
-			if (auto SpaceShipPtr = SpaceShip.lock())
+			//const std::filesystem::path FilePath = "SpaceShooterRedux/PNG/playerShip1_blue.png";
+			auto PlayerOwnSpaceShip = NewWorld->SpawnActor<PlayerSpaceship>(PlayerSpaceshipTexturePath);
+			if (auto SpaceShipPtr = PlayerOwnSpaceShip.lock())
 			{
-				SpaceShipPtr->SetTexture(PlayerSpaceshipTexturePath);
+				//SpaceShipPtr->SetTexture(PlayerSpaceshipTexturePath);
 				SpaceShipPtr->SetActorLocation({ 300.f, 480.f });
 				SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, -200.f));
 			}
+
+			const std::filesystem::path FilePath = "SpaceShooterRedux/PNG/playerShip3_red.png";
+			auto SpaceShip = NewWorld->SpawnActor<Spaceship>(FilePath.c_str());
+			if (auto SpaceShipPtr = SpaceShip.lock())
+			{
+				//SpaceShipPtr->SetTexture(FilePath);
+				SpaceShipPtr->SetActorLocation({ 300.f, 50.f });
+			}
+
 		}
 		else
 		{

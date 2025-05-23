@@ -8,7 +8,7 @@ namespace SF
 	public:
 		Object() = default;
 		virtual ~Object();
-		void Destroy();
+		virtual void Destroy();
 		bool IsPendingDestroy() const { return bHasPendingDestroy; }
 	private:
 		bool bHasPendingDestroy = false;

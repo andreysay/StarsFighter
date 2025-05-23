@@ -3,13 +3,17 @@
 
 namespace SF
 {
+	class BulletShooter;
+
 	constexpr std::string_view PlayerSpaceshipTexturePath = "SpaceShooterRedux/PNG/playerShip1_blue.png";
 
 	class PlayerSpaceship : public Spaceship
 	{
 	public:
 		PlayerSpaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName = "PlayerSpaceship");
-		virtual void Tick(float DeltaTime) override;
+		void Tick(float DeltaTime) override;
+		void Shoot() override;
+
 		void SetSpeed(float InSpeed) { Speed = InSpeed; }
 		float GetSpeed() const { return Speed; }
 	private:
@@ -20,5 +24,7 @@ namespace SF
 	private:
 		sf::Vector2f PlayerVelocity;
 		float Speed{200.f};
+
+		std::shared_ptr<BulletShooter> ShooterInstance;
 	};
 }

@@ -1,5 +1,6 @@
 #include "framework/GameBaseApp.hpp"
 #include "framework/AssetManager.hpp"
+#include "framework/PhysicsSystem.hpp"
 
 namespace SF
 {
@@ -62,13 +63,14 @@ void GameBaseApp::Tick(float DeltaTime)
 
 void GameBaseApp::TickInternal(float DeltaTime)
 {
-    //qInfo() << "Ticking at framerate: " << 1.f/DeltaTime;
     Tick(DeltaTime);
 
     if(CurrentWorld)
     {
         CurrentWorld->TickInternal(DeltaTime);
     }
+
+    PhysicsSystem::Get().Step(DeltaTime);
 
 	// Cleanup unused assets
 	if (CleanCycleClock.getElapsedTime().asSeconds() > CleanCycleInterval)

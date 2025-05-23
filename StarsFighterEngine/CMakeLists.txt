@@ -31,13 +31,38 @@ add_library(${STARSFIGHTER_ENGINE_TARGET_NAME} STATIC
   src/framework/AssetManager.cpp 
   
   include/framework/MathUtility.hpp
-  src/framework/MathUtility.cpp)
+  src/framework/MathUtility.cpp 
+  
+  include/framework/PhysicsSystem.hpp
+  src/framework/PhysicsSystem.cpp)
 
 target_include_directories(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+set(SFML_LIB_NAME SFML)
+
+include(FetchContent)
+FetchContent_Declare(${SFML_LIB_NAME}
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.1
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(${SFML_LIB_NAME})
+
 target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-graphics)
 target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-window)
 target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-system)
 target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-audio)
+
+set(BOX2D_LIB_NAME box2d)
+FetchContent_Declare(${BOX2D_LIB_NAME}
+    GIT_REPOSITORY https://github.com/erincatto/box2d.git
+    GIT_TAG v3.1.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(${BOX2D_LIB_NAME})
+
+target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC ${BOX2D_LIB_NAME})

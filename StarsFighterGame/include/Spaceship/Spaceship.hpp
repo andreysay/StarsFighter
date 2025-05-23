@@ -14,7 +14,12 @@ namespace SF
 		//virtual void BeginPlay() override;
 		
 		virtual void Tick(float DeltaTime) override;
+		virtual void Shoot();
+		virtual void BeginPlay() override;
+
+
 		void SetVelocity(const sf::Vector2f& InVelocity);
+
 		inline sf::Vector2f GetVelocity() const { return SpaceshipVelocity; }
 
 	private:

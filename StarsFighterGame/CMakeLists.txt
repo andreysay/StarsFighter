@@ -13,7 +13,16 @@ add_executable(${STARSFIGHTER_GAME_TARGET_NAME}
   src/Spaceship/Spaceship.cpp 
   
   include/Player/PlayerSpaceship.hpp
-  src/Player/PlayerSpaceship.cpp)
+  src/Player/PlayerSpaceship.cpp
+  
+  include/Weapon/BulletShooter.hpp
+  src/Weapon/BulletShooter.cpp
+
+  include/Weapon/Shooter.hpp
+  src/Weapon/Shooter.cpp 
+  
+  include/Weapon/Bullet.hpp
+  src/Weapon/Bullet.cpp)
 
 target_include_directories(${STARSFIGHTER_GAME_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include

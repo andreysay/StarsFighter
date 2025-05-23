@@ -10,7 +10,15 @@ namespace SF
 	{
 		Actor::Tick(DeltaTime);
 		AddActorLocationOffset(GetVelocity() * DeltaTime);
-		WriteLog(GLog, Helpers::LogLevel::Info, "Spaceship is ticking at framerate: " + std::to_string(1.f / DeltaTime));
+		//WriteLog(GLog, Helpers::LogLevel::Info, "Spaceship is ticking at framerate: " + std::to_string(1.f / DeltaTime));
+	}
+	void Spaceship::Shoot()
+	{
+	}
+	void Spaceship::BeginPlay()
+	{
+		Actor::BeginPlay();
+		SetEnablePhysics(true);
 	}
 	void Spaceship::SetVelocity(const sf::Vector2f& InVelocity)
 	{

@@ -2,17 +2,26 @@
 #include <SFML/System.hpp>
 #include "framework/MathUtility.hpp"
 #include "framework/World.hpp"
+#include "Weapon/BulletShooter.hpp"
 
 namespace SF
 {
 	PlayerSpaceship::PlayerSpaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
 		: Spaceship{ InWorld, FilePath, InName }
+		, ShooterInstance{ new BulletShooter{ this } }
 	{
 	}
 	void PlayerSpaceship::Tick(float DeltaTime)
 	{
 		Spaceship::Tick(DeltaTime);
 		HandleInput(DeltaTime);
+	}
+	void PlayerSpaceship::Shoot()
+	{
+		if (ShooterInstance)
+		{
+			ShooterInstance->Shoot();
+		}
 	}
 	void PlayerSpaceship::HandleInput(float DeltaTime)
 	{
@@ -33,6 +42,23 @@ namespace SF
 		//WriteLog(GLog, GLoglevel, DirectionString);
 		SetVelocity(Direction * Speed);
 		AddActorLocationOffset(GetVelocity() * DeltaTime);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+		{
+			Shoot();
+		}
+		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+		//{
+		//	GetWorld()->GetOwningApp()->Close();
+		//}
+		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F1))
+		//{
+		//	WriteLog(GLog, GLoglevel, "F1 pressed");
+		//}
+		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F2))
+		//{
+		//	WriteLog(GLog, GLoglevel, "F2 pressed");
+		//}
 	}
 	void PlayerSpaceship::Move(float DeltaTime)
 	{

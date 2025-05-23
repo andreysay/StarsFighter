@@ -22,7 +22,8 @@ namespace SF
 		}
 
 		auto NewTexture = std::make_shared<sf::Texture>();
-		if (NewTexture->loadFromFile(RootDirectory.concat(FilePath.c_str())))
+		std::filesystem::path TexturePath{RootDirectory};
+		if (NewTexture->loadFromFile(TexturePath.concat(FilePath.string())))
 		{
 			LoadedTextures[FilePath.string()] = NewTexture;
 			return NewTexture;
@@ -36,8 +37,8 @@ namespace SF
 		{
 			if (it->second.use_count() == 1)
 			{
-				std::string Message = "Texture " + it->first + " is no longer used, removing from memory.";
-				WriteLog(GLog, GLoglevel, Message);
+				//std::string Message = "Texture " + it->first + " is no longer used, removing from memory.";
+				//WriteLog(GLog, GLoglevel, Message);
 				//it = LoadedTextures.erase(it);
 				++it;
 			}
