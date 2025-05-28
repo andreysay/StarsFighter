@@ -61,7 +61,7 @@ Details will be added later
 
 Contributors names and contact info
 Andrey Spitsyn 
-ex. [@Nesstronic](https://nesstronic.com/)
+[@Nesstronic](https://nesstronic.com/)
 
 ## Version History
 
