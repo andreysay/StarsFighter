@@ -4,8 +4,10 @@ StarsFighter awesome space shooter game.
 
 ## Description
 
-StarsFighter is a 2D scrolling shooter spaceship fighting game, the player controls the hero spaceship and defeat the alien invation.
+StarsFighter is a 2D scrolling shooter spaceship fighting game, the player controls the hero spaceship and defeat the alien invasion.
 The Game is written in ```C++``` and with the following library:
+* [SFML](https://www.sfml-dev.org/) 
+* [Box2D](https://box2d.org/)
 
 The Game will Support in a future Windows, MacOS, Android and Linux.
 
