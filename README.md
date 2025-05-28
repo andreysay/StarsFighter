@@ -28,15 +28,15 @@ The project uses ```cmake``` to configure the project and dependencies. Make sur
 
 The build process is very generic:
 
-1, Open the folder with command prompt, and configure with cmake:
+1. Open the folder with command prompt, and configure with cmake:
 ```
 cmake -S . -B build -G Ninja
 ```
-2, Build with cmake:
+2. Build with cmake:
 ```
 cmake --build build
 ```
-3, open the game:
+3. open the game:
 
 ### Executing program
 
