@@ -68,7 +68,6 @@ Andrey Spitsyn
 *The Game is under development yet*
 
 ## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+StarsEngine and StarsFighterGame is developed by Andrey Spitsyn and uses the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
 
 ## Acknowledgments
