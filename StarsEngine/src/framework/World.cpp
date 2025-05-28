@@ -1,3 +1,10 @@
+/*
+*  World.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "framework/World.hpp"
 #include "framework/Core.hpp"
 #include "framework/GameBaseApp.hpp"
@@ -5,7 +12,7 @@
 
 namespace SF
 {
-    World::World(GameBaseApp *OwningApp)
+    World::World(const GameBaseApp& OwningApp)
     : WorldOwningApp{OwningApp}
 		, Actors{}
 		, PendingActors{}
@@ -44,11 +51,6 @@ namespace SF
 				++ActorIterator;
 			}
         }
-
-		//for (auto& AActor : Actors)
-		//{
-  //          AActor->Tick(DeltaTime);
-		//}
         Tick(DeltaTime);
     }
 
@@ -62,7 +64,7 @@ namespace SF
 
     sf::Vector2u World::GetWindowSize() const
     {
-        return WorldOwningApp->GetWindowSize();
+        return WorldOwningApp.GetWindowSize();
     }
 
     void World::BeginPlay()

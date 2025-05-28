@@ -17,11 +17,17 @@ namespace SF
 		virtual void Tick(float DeltaTime) override;
 		virtual void Shoot();
 		virtual void BeginPlay() override;
+		virtual void ApplyDamage(float DamageAmount) override;
 
 
 		void SetVelocity(const sf::Vector2f& InVelocity);
-
+		virtual void OnHeathChanged(float DeltaHealth);
+		virtual void OnTakenDamage(float DamageAmount);
+		virtual void OnDead();
 		inline sf::Vector2f GetVelocity() const { return SpaceshipVelocity; }
+
+	private:
+		
 
 	private:
 		sf::Vector2f SpaceshipVelocity;

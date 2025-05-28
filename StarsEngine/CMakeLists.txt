@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(StarsFighter LANGUAGES CXX)
+project(${STARS_ENGINE_TARGET_NAME} LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(${STARSFIGHTER_ENGINE_TARGET_NAME} STATIC
+add_library(${STARS_ENGINE_TARGET_NAME} STATIC
   include/framework/GameBaseApp.hpp
   src/framework/GameBaseApp.cpp
 
@@ -37,9 +37,12 @@ add_library(${STARSFIGHTER_ENGINE_TARGET_NAME} STATIC
   src/framework/PhysicsSystem.cpp
   
   include/framework/HealthComponent.hpp
-  src/framework/HealthComponent.cpp)
+  src/framework/HealthComponent.cpp
 
-target_include_directories(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC
+  include/framework/Delegate.hpp
+  src/framework/Delegate.cpp)
+
+target_include_directories(${STARS_ENGINE_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -54,10 +57,10 @@ FetchContent_Declare(${SFML_LIB_NAME}
     SYSTEM)
 FetchContent_MakeAvailable(${SFML_LIB_NAME})
 
-target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-graphics)
-target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-window)
-target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-system)
-target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC sfml-audio)
+target_link_libraries(${STARS_ENGINE_TARGET_NAME} PUBLIC sfml-graphics)
+target_link_libraries(${STARS_ENGINE_TARGET_NAME} PUBLIC sfml-window)
+target_link_libraries(${STARS_ENGINE_TARGET_NAME} PUBLIC sfml-system)
+target_link_libraries(${STARS_ENGINE_TARGET_NAME} PUBLIC sfml-audio)
 
 set(BOX2D_LIB_NAME box2d)
 FetchContent_Declare(${BOX2D_LIB_NAME}
@@ -68,4 +71,4 @@ FetchContent_Declare(${BOX2D_LIB_NAME}
     SYSTEM)
 FetchContent_MakeAvailable(${BOX2D_LIB_NAME})
 
-target_link_libraries(${STARSFIGHTER_ENGINE_TARGET_NAME} PUBLIC ${BOX2D_LIB_NAME})
+target_link_libraries(${STARS_ENGINE_TARGET_NAME} PUBLIC ${BOX2D_LIB_NAME})

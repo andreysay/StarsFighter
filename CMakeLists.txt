@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # The executable target name
-set(STARSFIGHTER_ENGINE_TARGET_NAME StarsFighterEngine)
-set(STARSFIGHTER_GAME_TARGET_NAME StarsFighterGame)
+set(STARS_ENGINE_TARGET_NAME StarsEngine)
+set(STARSFIGHTER_GAME_TARGET_NAME StarsFighter)
 
-add_subdirectory(StarsFighterEngine)
+add_subdirectory(StarsEngine)
 add_subdirectory(StarsFighterGame)

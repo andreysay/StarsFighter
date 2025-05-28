@@ -1,4 +1,5 @@
 #pragma once
+#include "framework/Delegate.hpp"
 
 namespace SF
 {
@@ -25,10 +26,19 @@ namespace SF
 		bool IsHealingActive() const { return bIsHealingActive; }
 		void SetInvincibility(float InInvincibilityTime);
 
+		//! Delegate
+		Delegate<> OnDead;
+		Delegate<float> OnHealthChanged;
+		Delegate<float> OnTakenDamage;
+
 	protected:
 		void SetCurrentHealth(float InCurrentHealth);
 		void SetMaxHealth(float InMaxHealth) { MaxHealth = InMaxHealth; }
 		void SetIsDead(bool bInIsDead) { bIsDead = bInIsDead; }
+
+		void TakenDamage(float DamageAmount);
+		void Dead();
+		void Heal(float HealAmount);
 
 	private:
 		float CurrentHealth{ 0.f };

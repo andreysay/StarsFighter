@@ -14,6 +14,8 @@ namespace SF
 	//! Base class for all actors in the game
 	class Actor : public Object
 	{
+
+		const static uint32_t DefaultTeamId = 0; // Default team id for the actor, used for identification of a groups objects in the game
 	public:
 		Actor() = default;
 		Actor(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName = "Actor");
@@ -23,6 +25,7 @@ namespace SF
 		virtual void OnActorBeginOverlap(Actor* OtherActor);
 		virtual void OnActorEndOverlap(Actor* OtherActor);
 		virtual void Destroy() override;
+		virtual void ApplyDamage(float DamageAmount);
 
 		void TickIntelrnal(float DeltaTime);
 		void BeginPlayInternal();
@@ -49,6 +52,9 @@ namespace SF
 		bool IsActorOutOfScreen() const;
 
 		void SetEnablePhysics(bool bInEnable);
+		void SetTeamId(uint32_t InTeamId);
+		uint32_t GetTeamId() const;
+		bool IsHostileTeam(const Actor* OtherActor) const;
 
 	private:
 		void CenterPivot();
@@ -67,5 +73,7 @@ namespace SF
 
 		b2BodyId PhysicsBodyId = b2_nullBodyId;
 		bool bPhysicsEnabled{ false };
+
+		std::optional<uint32_t> TeamId; // Optional team id for the actor, used for identification of a groups objects in the game
 	};
 }

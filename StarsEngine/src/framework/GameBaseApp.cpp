@@ -1,12 +1,16 @@
+/*
+*  GameBaseApp.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "framework/GameBaseApp.hpp"
 #include "framework/AssetManager.hpp"
 #include "framework/PhysicsSystem.hpp"
 
 namespace SF
 {
-
-const Vector2u WindowSize{1024, 1440};
-const std::string_view GameTitle{"StarsFigher"};
 
 GameBaseApp::GameBaseApp(Vector2u WinSize, const std::string& Title, std::uint32_t Style)
 {
@@ -45,11 +49,6 @@ Vector2u GameBaseApp::GetWindowSize() const
 
 void GameBaseApp::Render()
 {
-    //RectangleShape Rect{{200, 200}};
-    //Rect.setFillColor(Color::Green);
-    //Rect.setPosition({GameWindow->getSize().x*0.5f, GameWindow->getSize().y*0.5f});
-    //Rect.setOrigin({50.f,50.f});
-    //GameWindow->draw(Rect);
 	if (CurrentWorld)
 	{
 		CurrentWorld->Render(*GameWindow);

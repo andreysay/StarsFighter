@@ -1,5 +1,6 @@
 #include "Weapon/Bullet.hpp"
 #include "framework/Core.hpp"
+#include "Spaceship/Spaceship.hpp"
 
 namespace SF
 {
@@ -10,6 +11,8 @@ namespace SF
 		, Damage{ Damage }
 	{
 		SetTexture(FilePath);
+		//SetTeamId(InOwner->GetTeamId());
+		SetTeamId(2);
 	}
 	void Bullet::Tick(float DeltaTime)
 	{
@@ -18,12 +21,33 @@ namespace SF
 		if (IsActorOutOfScreen())
 		{
 			SetActorVisible(false);
+			//SetSpeed(0.f); // Stop moving if out of screen
 		}
 	}
 	void Bullet::BeginPlay()
 	{
 		Actor::BeginPlay();
-		//SetEnablePhysics(true);
+		SetEnablePhysics(true);
+	}
+	void Bullet::OnActorBeginOverlap(Actor* OtherActor)
+	{
+		if (IsHostileTeam(OtherActor))
+		{
+			WriteLog(GLog, GLoglevel, "Bullet hit actor: " + OtherActor->GetName());
+			// Apply damage to the other actor
+			if (auto OtherSpaceship = dynamic_cast<Spaceship*>(OtherActor))
+			{
+				OtherSpaceship->ApplyDamage(GetDamage());
+			}
+			SetActorVisible(false); // Hide bullet after hit
+		}
+		//else
+		//{
+		//	WriteLog(GLog, GLoglevel, "Bullet overlap with non-hostile actor: " + OtherActor->GetName());
+		//}
+	}
+	void Bullet::OnActorEndOverlap(Actor* OtherActor)
+	{
 	}
 	void Bullet::SetSpeed(float InSpeed)
 	{

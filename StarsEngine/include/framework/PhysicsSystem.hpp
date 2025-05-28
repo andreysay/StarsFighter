@@ -12,9 +12,10 @@ namespace SF
 	public:
 		static PhysicsSystem& Get();
 		static void Cleanup();
+		static void EnableContactEvents(b2BodyId BodyId, bool bEnable);
 
 		void Step(float DeltaTime);
-		b2BodyId AddListener(Actor* ActorListener);
+		b2BodyId AddPhysicsOwnerActor(Actor* InActor);
 		void PhysicsBodyToRemove(b2BodyId BodyToRemove);
 		float GetPhysicsScale() const { return PhysicsScale; }
 
@@ -25,7 +26,6 @@ namespace SF
 		void BeginContact(b2BodyId BodyIdA, b2BodyId BodyIdB);
 		void EndContact(b2BodyId BodyIdA, b2BodyId BodyIdB);
 		void ProcessPendingBodiesRemoval();
-		void EnableContactEvents(b2BodyId BodyId, bool bEnable);
 
 	private:
 		// Private members for physics simulation

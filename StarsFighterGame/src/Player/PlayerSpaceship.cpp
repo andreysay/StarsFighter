@@ -10,6 +10,7 @@ namespace SF
 		: Spaceship{ InWorld, FilePath, InName }
 		, ShooterInstance{ new BulletShooter{ this } }
 	{
+		SetTeamId(PlayerSpaceshipDefaultTeamId);
 	}
 	void PlayerSpaceship::Tick(float DeltaTime)
 	{

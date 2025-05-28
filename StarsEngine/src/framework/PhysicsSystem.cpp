@@ -29,6 +29,7 @@ namespace SF
 	}
 	void PhysicsSystem::Step(float DeltaTime)
 	{
+		ProcessPendingBodiesRemoval();
 		b2World_Step(PhysicsWorldId, DeltaTime, PositionIterations);
 
 		// Process contact begin touch events.
@@ -76,20 +77,20 @@ namespace SF
 		//}
 
 	}
-	b2BodyId PhysicsSystem::AddListener(Actor* ActorListener)
+	b2BodyId PhysicsSystem::AddPhysicsOwnerActor(Actor* InActor)
 	{
-		if (!ActorListener || ActorListener->IsPendingDestroy() || !ActorListener->IsActorVisible())
+		if (!InActor || InActor->IsPendingDestroy() /*|| !InActor->IsActorVisible()*/)
 		{
 			return b2_nullBodyId;
 		}
 
 		b2BodyDef BodyDef = b2DefaultBodyDef();
 		BodyDef.type = b2_dynamicBody;
-		BodyDef.position = b2Vec2{ ActorListener->GetActorLocation().x, ActorListener->GetActorLocation().y };
-		BodyDef.rotation = b2MakeRot(ActorListener->GetActorRotation(true));
+		BodyDef.position = b2Vec2{ InActor->GetActorLocation().x, InActor->GetActorLocation().y };
+		BodyDef.rotation = b2MakeRot(InActor->GetActorRotation(true));
 		b2BodyId BodyId = b2CreateBody(PhysicsWorldId, &BodyDef);
 
-		auto ActorBounds = ActorListener->GetActorGlobalBounds();
+		auto ActorBounds = InActor->GetActorGlobalBounds();
 		b2Polygon ShapeBox = b2MakeBox(ActorBounds.size.x / 2.f * GetPhysicsScale(), ActorBounds.size.y / 2.f * GetPhysicsScale());
 		b2ShapeDef ShapeDef = b2DefaultShapeDef();
 		ShapeDef.density = 1.f;
@@ -97,7 +98,7 @@ namespace SF
 
 		b2CreatePolygonShape(BodyId, &ShapeDef, &ShapeBox);
 		b2Body_EnableContactEvents(BodyId, true);
-		b2Body_SetUserData(BodyId, ActorListener);
+		b2Body_SetUserData(BodyId, InActor);
 		b2Body_EnableSleep(BodyId, false);
 
 		return BodyId;
@@ -134,7 +135,7 @@ namespace SF
 	void PhysicsSystem::BeginContact(b2BodyId BodyIdA, b2BodyId BodyIdB)
 	{
 		std::string Message = "Begin contact: " + std::to_string(BodyIdA.index1) + " and " + std::to_string(BodyIdB.index1);
-		WriteLog(GLog, GLoglevel, Message);
+		//WriteLog(GLog, GLoglevel, Message);
 
 		Actor* ActorA = static_cast<Actor*>(b2Body_GetUserData(BodyIdA));
 		Actor* ActorB = static_cast<Actor*>(b2Body_GetUserData(BodyIdB));
@@ -151,7 +152,7 @@ namespace SF
 	void PhysicsSystem::EndContact(b2BodyId BodyIdA, b2BodyId BodyIdB)
 	{
 		std::string Message = "End contact: " + std::to_string(BodyIdA.index1) + " and " + std::to_string(BodyIdB.index1);
-		WriteLog(GLog, GLoglevel, Message);
+		//WriteLog(GLog, GLoglevel, Message);
 		Actor* ActorA = nullptr;
 		Actor* ActorB = nullptr;
 

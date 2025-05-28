@@ -21,26 +21,34 @@ namespace SF
 	}
 	void Actor::BeginPlay()
 	{
+		/* Default implementation does nothing */
 		//std::string Message = "Actor begin play.";
 		//Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 	}
 	void Actor::Tick(float DeltaTime)
 	{
+		/* Default implementation does nothing */
 		//std::string Message = "Actor is ticking at framerate: " + std::to_string(1.f / DeltaTime);
 		//Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 	}
 	void Actor::OnActorBeginOverlap(Actor* OtherActor)
 	{
-		WriteLog(GLog, GLoglevel, "Actor " + GetName() + " begin overlap with actor: " + OtherActor->GetName());
+		/* Default implementation does nothing */
+		//WriteLog(GLog, GLoglevel, "Actor " + GetName() + " begin overlap with actor: " + OtherActor->GetName());
 	}
 	void Actor::OnActorEndOverlap(Actor* OtherActor)
 	{
-		WriteLog(GLog, GLoglevel, "Actor " + GetName() + " end overlap with actor: " + OtherActor->GetName());
+		/* Default implementation does nothing */
+		//WriteLog(GLog, GLoglevel, "Actor " + GetName() + " end overlap with actor: " + OtherActor->GetName());
 	}
 	void Actor::Destroy()
 	{
 		DisablePhysics();
 		Object::Destroy();
+	}
+	void Actor::ApplyDamage(float DamageAmount)
+	{ 
+		/* Default implementation does nothing */
 	}
 	void Actor::TickIntelrnal(float DeltaTime)
 	{
@@ -70,7 +78,6 @@ namespace SF
 	}
 	const std::string& Actor::GetName() const
 	{
-		// TODO: insert return statement here
 		return Name;
 	}
 	void Actor::SetTexture(const std::filesystem::path& FilePath)
@@ -88,8 +95,6 @@ namespace SF
 			ActorSprite.setTextureRect(sf::IntRect{ sf::Vector2i{0, 0},
 				sf::Vector2i{static_cast<int>(ActorTexture.getSize().x), static_cast<int>(ActorTexture.getSize().y)} });
 			ActorSprite.setOrigin({ 0.f, 0.f});
-			std::string Message = "Actor " + GetName() + " Texture loaded successfully from file: " + FilePath.string();
-			Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 			CenterPivot();
 		}
 	}
@@ -148,8 +153,13 @@ namespace SF
 	}
 	void Actor::SetActorVisible(bool InVisible)
 	{
+		//TODO: 
 		bIsVisible = InVisible;
 		ActorSprite.setColor(InVisible ? sf::Color::White : sf::Color::Transparent);
+		if (B2_IS_NON_NULL(PhysicsBodyId))
+		{
+			PhysicsSystem::Get().EnableContactEvents(PhysicsBodyId, InVisible);
+		}
 	}
 	bool Actor::IsActorOutOfScreen() const
 	{
@@ -177,6 +187,27 @@ namespace SF
 			DisablePhysics();
 		}
 	}
+	void Actor::SetTeamId(uint32_t InTeamId)
+	{
+		TeamId = InTeamId; // Set the team id
+	}
+	uint32_t Actor::GetTeamId() const
+	{
+		return TeamId.value_or(DefaultTeamId);
+	}
+	bool Actor::IsHostileTeam(const Actor* OtherActor) const
+	{
+		if (!OtherActor)
+		{
+			return false; // No other actor, no hostility
+		}
+		if (OtherActor->GetTeamId() == DefaultTeamId || GetTeamId() == DefaultTeamId)
+		{
+			return false; // Default team is not hostile
+		}
+
+		return (GetTeamId() != OtherActor->GetTeamId());
+	}
 	void Actor::CenterPivot()
 	{
 		sf::FloatRect Bounds = ActorSprite.getGlobalBounds();
@@ -186,7 +217,7 @@ namespace SF
 	{
 		if ( B2_IS_NULL(PhysicsBodyId) )
 		{
-			PhysicsBodyId = PhysicsSystem::Get().AddListener(this);
+			PhysicsBodyId = PhysicsSystem::Get().AddPhysicsOwnerActor(this);
 		}
 	}
 	void Actor::DisablePhysics()

@@ -1,3 +1,10 @@
+/*
+*  GameEntry.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "GameEntry.hpp"
 
 #include "framework/GameBaseApp.hpp"
@@ -5,6 +12,7 @@
 
 using namespace Helpers;
 
+// Entry point for the game application
 int main(int argc, char *argv[])
 {
     GLog.SetLevel(GLoglevel);

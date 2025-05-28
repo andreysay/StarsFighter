@@ -25,6 +25,8 @@ namespace SF
 		std::filesystem::path TexturePath{RootDirectory};
 		if (NewTexture->loadFromFile(TexturePath.concat(FilePath.string())))
 		{
+			std::string Message = "Texture loaded successfully from file: " + FilePath.string();
+			Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 			LoadedTextures[FilePath.string()] = NewTexture;
 			return NewTexture;
 		}
