@@ -25,6 +25,7 @@ namespace SF
 					}
 					return false; // Object is no longer valid
 				}
+				return false; // Object is no longer valid
 			};
 			DelegateCallbacks.push_back(NewCallback);
 		}

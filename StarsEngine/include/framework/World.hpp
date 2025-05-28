@@ -54,7 +54,7 @@ namespace SF
 		// Actors pending to be added to the world
 		std::vector<std::shared_ptr<Actor>> PendingActors;
     };
-
+	//--------------------------------------------------------------------------------------------------------
 	template<typename ActorType, typename... Args>
 	std::weak_ptr<ActorType> World::SpawnActor(Args... InArgs)
 	{

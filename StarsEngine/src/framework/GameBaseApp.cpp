@@ -11,12 +11,12 @@
 
 namespace SF
 {
-
+//--------------------------------------------------------------------------------------------------------
 GameBaseApp::GameBaseApp(Vector2u WinSize, const std::string& Title, std::uint32_t Style)
 {
     GameWindow = std::make_unique<RenderWindow>(VideoMode{ WinSize }, std::string{ Title }, Style);
 }
-
+//--------------------------------------------------------------------------------------------------------
 void GameBaseApp::RunGame()
 {
     TickClock.restart();
@@ -41,12 +41,12 @@ void GameBaseApp::RunGame()
         }
     }
 }
-
+//--------------------------------------------------------------------------------------------------------
 Vector2u GameBaseApp::GetWindowSize() const
 {
 	return GameWindow.get()->getSize();
 }
-
+//--------------------------------------------------------------------------------------------------------
 void GameBaseApp::Render()
 {
 	if (CurrentWorld)
@@ -54,12 +54,12 @@ void GameBaseApp::Render()
 		CurrentWorld->Render(*GameWindow);
 	}
 }
-
+//--------------------------------------------------------------------------------------------------------
 void GameBaseApp::Tick(float DeltaTime)
 {
 
 }
-
+//--------------------------------------------------------------------------------------------------------
 void GameBaseApp::TickInternal(float DeltaTime)
 {
     Tick(DeltaTime);
@@ -78,7 +78,7 @@ void GameBaseApp::TickInternal(float DeltaTime)
 		AssetManager::Get().CleanCycle();
 	}
 }
-
+//--------------------------------------------------------------------------------------------------------
 void GameBaseApp::RenderInternal()
 {
     GameWindow->clear();

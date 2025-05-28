@@ -1,9 +1,17 @@
+/*
+*  Shooter.hpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #pragma once
 
 namespace SF
 {
 	class Actor;
 
+	//! Shooter class is an abstract base class for any entity that can shoot projectiles
 	class Shooter 
 	{
 	public:

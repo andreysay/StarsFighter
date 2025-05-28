@@ -18,6 +18,7 @@ namespace SF
 		b2BodyId AddPhysicsOwnerActor(Actor* InActor);
 		void PhysicsBodyToRemove(b2BodyId BodyToRemove);
 		float GetPhysicsScale() const { return PhysicsScale; }
+		void EnableSleepPhysicsBody(b2BodyId BodyId, bool bEnable);
 
 		~PhysicsSystem();
 	protected:

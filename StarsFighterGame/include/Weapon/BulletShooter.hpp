@@ -1,3 +1,10 @@
+/*
+*  BulletShooter.hpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #pragma once
 #include "Shooter.hpp"
 #include <SFML/System.hpp>
@@ -7,8 +14,9 @@ namespace SF
 {
 	class Actor;
 	class Bullet;
+	//! BulletPoolSize defines the size of the bullet pool for the BulletShooter class.
 	static const size_t BulletPoolSize = 100;
-
+	//! BulletShooter class is a shooter that can shoot bullets from a pool of bullets.
 	class BulletShooter : public Shooter
 	{
 	public:
@@ -16,7 +24,7 @@ namespace SF
 		BulletShooter(Actor* InOwner, float InCooldownTime = 0.1f);
 		bool IsOnCooldown() const override;
 	private:
-		void Shoot_Impl() override;
+		virtual void Shoot_Impl() override;
 		
 	private:
 		std::vector<std::weak_ptr<Bullet>> Bullets;

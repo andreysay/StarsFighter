@@ -1,3 +1,10 @@
+/*
+*  Actor.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "framework/Actor.hpp"
 
 #include <math.h>
@@ -158,6 +165,7 @@ namespace SF
 		ActorSprite.setColor(InVisible ? sf::Color::White : sf::Color::Transparent);
 		if (B2_IS_NON_NULL(PhysicsBodyId))
 		{
+			PhysicsSystem::Get().EnableSleepPhysicsBody(PhysicsBodyId, InVisible);
 			PhysicsSystem::Get().EnableContactEvents(PhysicsBodyId, InVisible);
 		}
 	}
@@ -185,6 +193,30 @@ namespace SF
 		else
 		{
 			DisablePhysics();
+		}
+	}
+	void Actor::EnablePhysicsSleep()
+	{
+		if (B2_IS_NON_NULL(PhysicsBodyId))
+		{
+			PhysicsSystem::Get().EnableSleepPhysicsBody(PhysicsBodyId, true);
+			WriteLog(GLog, GLoglevel, "Actor " + GetName() + " physics body enabled sleep.");
+		}
+		else
+		{
+			WriteLog(GLog, GLoglevel, "Actor " + GetName() + " has no physics body to enable sleep.");
+		}
+	}
+	void Actor::AwakePhysics()
+	{
+		if (B2_IS_NON_NULL(PhysicsBodyId))
+		{
+			PhysicsSystem::Get().EnableSleepPhysicsBody(PhysicsBodyId, false);
+			WriteLog(GLog, GLoglevel, "Actor " + GetName() + " physics body awake.");
+		}
+		else
+		{
+			WriteLog(GLog, GLoglevel, "Actor " + GetName() + " has no physics body to awake.");
 		}
 	}
 	void Actor::SetTeamId(uint32_t InTeamId)

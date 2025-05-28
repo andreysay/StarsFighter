@@ -26,7 +26,10 @@ namespace SF
 	// Constants for the game window size and title
 	const Vector2u WindowSize{ 750, 1334 };
 	const std::string_view GameTitle{ "StarsFigher" };
-
+	const float Velocity{ -200.f }; // Default spaceship velocity
+	const Vector2f PlayerStartPosition = { WindowSize.x * 0.5f, WindowSize.y * 0.8f };
+	const Vector2f ActorStartPosition = { WindowSize.x * 0.5f, WindowSize.y * 0.1f };
+	//--------------------------------------------------------------------------------------------------------
     StarsFigherGame::StarsFigherGame()
 		: GameBaseApp{ WindowSize, std::string{GameTitle}, sf::Style::Titlebar | sf::Style::Close }
 	{
@@ -38,9 +41,8 @@ namespace SF
 			auto PlayerOwnSpaceShip = NewWorld->SpawnActor<PlayerSpaceship>(PlayerSpaceshipTexturePath);
 			if (auto SpaceShipPtr = PlayerOwnSpaceShip.lock())
 			{
-				//SpaceShipPtr->SetTexture(PlayerSpaceshipTexturePath);
-				SpaceShipPtr->SetActorLocation({ 300.f, 480.f });
-				SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, -200.f));
+				SpaceShipPtr->SetActorLocation(PlayerStartPosition);
+				SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, Velocity));
 				SpaceShipPtr->SetTeamId(PlayerSpaceship::PlayerSpaceshipDefaultTeamId);
 			}
 
@@ -48,8 +50,7 @@ namespace SF
 			auto SpaceShip = NewWorld->SpawnActor<Spaceship>(FilePath.c_str());
 			if (auto SpaceShipPtr = SpaceShip.lock())
 			{
-				//SpaceShipPtr->SetTexture(FilePath);
-				SpaceShipPtr->SetActorLocation({ 300.f, 50.f });
+				SpaceShipPtr->SetActorLocation(ActorStartPosition);
 				SpaceShipPtr->SetTeamId(3);
 			}
 

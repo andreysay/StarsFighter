@@ -12,6 +12,7 @@
 
 namespace SF
 {
+	//--------------------------------------------------------------------------------------------------------
     World::World(const GameBaseApp& OwningApp)
     : WorldOwningApp{OwningApp}
 		, Actors{}
@@ -19,7 +20,7 @@ namespace SF
     {
 
     }
-
+	//--------------------------------------------------------------------------------------------------------
     void World::BeginPlayInternal()
     {
         if(!bBeginPlay)
@@ -28,7 +29,7 @@ namespace SF
             BeginPlay();
         }
     }
-
+	//--------------------------------------------------------------------------------------------------------
     void World::TickInternal(float DeltaTime)
     {
 		for (auto& NewActor : PendingActors)
@@ -53,7 +54,7 @@ namespace SF
         }
         Tick(DeltaTime);
     }
-
+	//--------------------------------------------------------------------------------------------------------
     void World::Render(sf::RenderWindow& Window)
     {
         for (auto& AActor : Actors)
@@ -66,12 +67,12 @@ namespace SF
     {
         return WorldOwningApp.GetWindowSize();
     }
-
+	//--------------------------------------------------------------------------------------------------------
     void World::BeginPlay()
     {
 
     }
-
+	//--------------------------------------------------------------------------------------------------------
     void World::Tick(float DeltaTime)
     {
 		//std::string Message = "World is ticking at framerate: " + std::to_string(1.f / DeltaTime);

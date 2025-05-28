@@ -117,6 +117,23 @@ namespace SF
 			WriteLog(GLog, GLoglevel, Message);
 		}
 	}
+	void PhysicsSystem::EnableSleepPhysicsBody(b2BodyId BodyId, bool bEnable)
+	{
+		if (bEnable && b2Body_IsSleepEnabled(BodyId))
+		{
+			WriteLog(GLog, GLoglevel, "Physics body is already in sleep mode.");
+			return;
+		}
+
+		if (B2_IS_NON_NULL(BodyId))
+		{
+			b2Body_EnableSleep(BodyId, bEnable);
+		}
+		else
+		{
+			WriteLog(GLog, GLoglevel, "Physics body is null, cannot enable sleep.");
+		}
+	}
 	PhysicsSystem::~PhysicsSystem()
 	{
 		b2DestroyWorld(PhysicsWorldId);

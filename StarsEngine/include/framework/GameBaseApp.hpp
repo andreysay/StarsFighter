@@ -65,6 +65,7 @@ namespace SF
 		float CleanCycleInterval{ CleanInterval };
     };
 
+    // --------------------------------------------------------------
     template<typename WorldType>
     inline std::weak_ptr<WorldType> GameBaseApp::LoadWorld()
     {
