@@ -1,22 +1,40 @@
 # Project Title
 
-StarsFighter awesome game.
+StarsFighter awesome space shooter game.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+StarsFighter is a 2D scrolling shooter spaceship fighting game, the player controls the hero spaceship and defeat the alien invation.
+The Game is written in ```C++``` and with the following library:
+
+The Game will Support in a future Windows, MacOS, Android and Linux.
 
 ## Getting Started
+The project uses ```cmake``` to configure the project and dependencies. Make sure your system have ```cmake``` and ```gcc/g++``` installed:
+|Build Tools          |Version|
+|---------------------|------|
+|cmake version:       |3.28.0|
+|C++ version:         |C++ 20|
+|Generator:           |Ninja | 
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* [SFML](https://www.sfml-dev.org/) 
+* [Box2D](https://box2d.org/)
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+The build process is very generic:
+
+1, Open the folder with command prompt, and configure with cmake:
+```
+cmake -S . -B build -G Ninja
+```
+2, Build with cmake:
+```
+cmake --build build
+```
+3, open the game:
 
 ### Executing program
 
@@ -26,37 +44,29 @@ An in-depth paragraph about your project and overview of use.
 code blocks for commands
 ```
 
-## Help
+### Technical Details
 
-Any advise for common problems or issues.
+The game is broken down to 2 major projects:
+
+* StarsEngine
+* StarsFighterGame
+________________
 ```
-command to run if program contains helper info
+Details will be added later
 ```
 
 ## Authors
 
 Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+Andrey Spitsyn 
+ex. [@Nesstronic](https://nesstronic.com/)
 
 ## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
+*The Game is under development yet*
 
 ## License
 
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
 ## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome](https://github.com/)
-* [Purple](https://gist.github.com/)
-* [Bander](https://github.com/)
-* [zero](https://gist.github.com/)
-* [productions](https://gist.github.com/)
