@@ -1,4 +1,13 @@
+/*
+*  Spaceship.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "Spaceship/Spaceship.hpp"
+#include "framework/MathUtility.hpp"
+#include "VFX/Explosion.hpp"
 
 namespace SF
 {
@@ -11,6 +20,7 @@ namespace SF
 	{
 		Actor::Tick(DeltaTime);
 		AddActorLocationOffset(GetVelocity() * DeltaTime);
+		UpdateBlink(DeltaTime);
 		//WriteLog(GLog, Helpers::LogLevel::Info, "Spaceship is ticking at framerate: " + std::to_string(1.f / DeltaTime));
 	}
 	void Spaceship::Shoot()
@@ -40,13 +50,31 @@ namespace SF
 	}
 	void Spaceship::OnTakenDamage(float DamageAmount)
 	{
-		/* Default implementation does nothing */
+		Blink();
 		WriteLog(GLog, GLoglevel, "Spaceship took damage: " + std::to_string(DamageAmount));
 	}
 	void Spaceship::OnDead()
 	{
+		std::unique_ptr<Explosion> ExplosionEffect = std::make_unique<Explosion>(100, 1.f);
+		ExplosionEffect->SpawnExplosion(*GetWorld(), GetActorLocation(), 0.5f, 1.f);
 		WriteLog(GLog, GLoglevel, "Spaceship is dead!");
 		Destroy();
+	}
+	void Spaceship::Blink()
+	{
+		if (BlinkTime == 0.f)
+		{
+			BlinkTime = BlinkDuration;
+		}
+	}
+	void Spaceship::UpdateBlink(float DeltaTime)
+	{
+		if (BlinkTime > 0.f)
+		{
+			BlinkTime -= DeltaTime;
+			BlinkTime = BlinkTime > 0.f ? BlinkTime : 0.f;
+			GetActorSprite().setColor(SF::Math::LerpColor(sf::Color::White, BlinkColorOffset, BlinkTime));
+		}
 	}
 }
 

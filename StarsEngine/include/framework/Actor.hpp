@@ -54,7 +54,8 @@ namespace SF
 		//! Set the world that owns this actor
 		void SetWorld(World* InWorld);
 		//! Get the world that owns this actor
-		World* GetWorld() const;
+		const World* GetWorld() const;
+		World* GetWorld();
 		//! Set the name of the actor
 		void SetName(const std::string& InName);
 		//! Get the name of the actor
@@ -96,12 +97,16 @@ namespace SF
 		void EnablePhysicsSleep();
 		//! Awake the actor's physics body
 		void AwakePhysics();
+
 		//! Get the actor's team id
 		void SetTeamId(uint32_t InTeamId);
 		//! Get the actor's team id
 		uint32_t GetTeamId() const;
 		//! Check if the other actor is part of a hostile team
 		bool IsHostileTeam(const Actor* OtherActor) const;
+
+		sf::Sprite& GetActorSprite() { return ActorSprite; }
+		const sf::Sprite& GetActorSprite() const { return ActorSprite; }
 
 	private:
 		//! Center the pivot of the actor sprite

@@ -40,7 +40,14 @@ add_library(${STARS_ENGINE_TARGET_NAME} STATIC
   src/framework/HealthComponent.cpp
 
   include/framework/Delegate.hpp
-  src/framework/Delegate.cpp)
+  src/framework/Delegate.cpp 
+  
+  include/VFX/Particle.hpp
+  src/VFX/Particle.cpp
+
+  include/VFX/Explosion.hpp
+  src/VFX/Explosion.cpp
+)
 
 target_include_directories(${STARS_ENGINE_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include

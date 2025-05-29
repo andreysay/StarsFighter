@@ -1,7 +1,13 @@
+/*
+*  Delegate.hpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #pragma once
 #include <functional>
 #include <memory>
-//#include "framework/Object.hpp"
 
 namespace SF
 {
@@ -11,6 +17,7 @@ namespace SF
 	class Delegate
 	{
 	public:
+		//! Bind a callback to the delegate using a shared pointer to an object
 		template<typename ClassName>
 		void BindDelegate(std::weak_ptr<Object> ObjPtr, void(ClassName::*Callback)(Args...))
 		{
@@ -29,7 +36,8 @@ namespace SF
 			};
 			DelegateCallbacks.push_back(NewCallback);
 		}
-
+		//! Broadcast the delegate to all bound callbacks with the provided arguments
+		//! Removes any callbacks that return false (indicating the object is no longer valid)
 		void Broadcast(Args... InArgs)
 		{
 			for (auto Iter = DelegateCallbacks.begin(); Iter != DelegateCallbacks.end();)

@@ -1,13 +1,29 @@
+/*
+*  HealthComponent.hpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #pragma once
 #include "framework/Delegate.hpp"
 
 namespace SF
 {
+	//! HealthComponent class is responsible for managing the health of an actor.
 	class HealthComponent
 	{
 	public:
+		HealthComponent() = default;
+		//! Constructor for HealthComponent, initializes current and maximum health.
 		HealthComponent(float InCurrentHealth, float InMaxHealth);
+		HealthComponent(const HealthComponent&) = delete;
+		HealthComponent& operator=(const HealthComponent&) = delete;
+		HealthComponent(HealthComponent&&) = delete;
+		HealthComponent& operator=(HealthComponent&&) = delete;
 		~HealthComponent() = default;
+
+
 		float GetMaxHealth() const { return MaxHealth; }
 		float GetCurrentHealth() const { return CurrentHealth; }
 		void ChangeCurrentHealth(float DeltaHealth);

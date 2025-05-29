@@ -1,3 +1,10 @@
+/*
+*  Config.h
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #pragma once
 #include <string>
 

@@ -1,3 +1,10 @@
+/*
+*  PhysicsSystem.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "framework/PhysicsSystem.hpp"
 #include "framework/Actor.hpp"
 #include "framework/Core.hpp"
@@ -6,7 +13,7 @@
 namespace SF
 {
 	std::unique_ptr<PhysicsSystem> PhysicsSystem::PhysicsSystemInstance{ nullptr };
-
+	//--------------------------------------------------------------------------------------------------------
 	PhysicsSystem& PhysicsSystem::Get()
 	{
 		if (!PhysicsSystemInstance)
@@ -15,6 +22,7 @@ namespace SF
 		}
 		return *PhysicsSystemInstance;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::Cleanup()
 	{
 		if (PhysicsSystemInstance)
@@ -27,6 +35,7 @@ namespace SF
 			PhysicsSystemInstance = std::unique_ptr<PhysicsSystem>(new PhysicsSystem);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::Step(float DeltaTime)
 	{
 		ProcessPendingBodiesRemoval();
@@ -77,6 +86,7 @@ namespace SF
 		//}
 
 	}
+	//--------------------------------------------------------------------------------------------------------
 	b2BodyId PhysicsSystem::AddPhysicsOwnerActor(Actor* InActor)
 	{
 		if (!InActor || InActor->IsPendingDestroy() /*|| !InActor->IsActorVisible()*/)
@@ -103,6 +113,7 @@ namespace SF
 
 		return BodyId;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::PhysicsBodyToRemove(b2BodyId BodyToRemove)
 	{
 		if (PendingBodiesToRemove.try_emplace(BodyToRemove.index1, BodyToRemove).second)
@@ -117,6 +128,7 @@ namespace SF
 			WriteLog(GLog, GLoglevel, Message);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::EnableSleepPhysicsBody(b2BodyId BodyId, bool bEnable)
 	{
 		if (bEnable && b2Body_IsSleepEnabled(BodyId))
@@ -134,10 +146,12 @@ namespace SF
 			WriteLog(GLog, GLoglevel, "Physics body is null, cannot enable sleep.");
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	PhysicsSystem::~PhysicsSystem()
 	{
 		b2DestroyWorld(PhysicsWorldId);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	PhysicsSystem::PhysicsSystem()
 		: PhysicsScale{ 0.01f }
 	{
@@ -146,9 +160,7 @@ namespace SF
 		PhysicsWorldId = b2CreateWorld(&PhysicsWorldDef);
 		b2World_EnableSleeping(PhysicsWorldId, false);
 	}
-
-
-	//----------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::BeginContact(b2BodyId BodyIdA, b2BodyId BodyIdB)
 	{
 		std::string Message = "Begin contact: " + std::to_string(BodyIdA.index1) + " and " + std::to_string(BodyIdB.index1);
@@ -166,6 +178,7 @@ namespace SF
 			}
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::EndContact(b2BodyId BodyIdA, b2BodyId BodyIdB)
 	{
 		std::string Message = "End contact: " + std::to_string(BodyIdA.index1) + " and " + std::to_string(BodyIdB.index1);
@@ -191,6 +204,7 @@ namespace SF
 			ActorB->OnActorEndOverlap(ActorA);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::ProcessPendingBodiesRemoval()
 	{
 		for (auto& [index, BodyToRemove] : PendingBodiesToRemove)
@@ -199,6 +213,7 @@ namespace SF
 		}
 		PendingBodiesToRemove.clear();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void PhysicsSystem::EnableContactEvents(b2BodyId BodyId, bool bEnable)
 	{
 		if (B2_IS_NON_NULL(BodyId))

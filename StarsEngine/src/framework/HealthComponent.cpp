@@ -1,13 +1,22 @@
+/*
+*  HealthComponent.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "framework/HealthComponent.hpp"
 #include "framework/Core.hpp"
 
 namespace SF
 {
+	//--------------------------------------------------------------------------------------------------------
 	HealthComponent::HealthComponent(float InCurrentHealth, float InMaxHealth)
 		: CurrentHealth{ InCurrentHealth }
 		, MaxHealth{ InMaxHealth }
 	{
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void HealthComponent::ChangeCurrentHealth(float DeltaHealth)
 	{
 		if (bIsDead)
@@ -28,17 +37,20 @@ namespace SF
 		}
 		OnHealthChanged.Broadcast(DeltaHealth);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void HealthComponent::SetInvincibility(float InInvincibilityTime)
 	{
 		bIsInvincible = true;
 		InvincibilityTime = InInvincibilityTime;
 		InvincibilityTimer = 0.f;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void HealthComponent::SetCurrentHealth(float InCurrentHealth)
 	{
 		WriteLog(GLog, GLoglevel, "Current health: " + std::to_string(InCurrentHealth));
 		CurrentHealth = InCurrentHealth;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void HealthComponent::TakenDamage(float DamageAmount)
 	{
 		WriteLog(GLog, GLoglevel, "Taking damage: " + std::to_string(DamageAmount));
@@ -47,6 +59,7 @@ namespace SF
 		SetCurrentHealth(CurrentHealth + DamageAmount);
 		OnTakenDamage.Broadcast(DamageAmount);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void HealthComponent::Dead()
 	{
 		SetCurrentHealth(0.f);
@@ -54,6 +67,7 @@ namespace SF
 		OnDead.Broadcast();
 		WriteLog(GLog, GLoglevel, "HealthComponent is dead!");
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void HealthComponent::Heal(float HealAmount)
 	{
 		WriteLog(GLog, GLoglevel, "Healing: " + std::to_string(HealAmount));
@@ -65,4 +79,4 @@ namespace SF
 			SetCurrentHealth(MaxHealth);
 		}
 	}
-}
+} // namespace SF
