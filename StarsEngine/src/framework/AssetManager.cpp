@@ -1,10 +1,17 @@
+/*
+*  AssetManager.cpp
+*  StarsEngine
+*
+*  Created by Andrey Spitsyn
+*  Copyright 2025 Nesstronic. All rights reserved.
+*/
 #include "framework/AssetManager.hpp"
 #include "framework/Core.hpp"
 
 namespace SF
 {
 	std::unique_ptr<AssetManager> AssetManager::AssetManagerPtr{ nullptr };
-
+	//--------------------------------------------------------------------------------------------------------
 	AssetManager& AssetManager::Get()
 	{
 		if (!AssetManagerPtr)
@@ -13,6 +20,7 @@ namespace SF
 		}
 		return *AssetManagerPtr;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	std::shared_ptr<sf::Texture> AssetManager::LoadTexture(const std::filesystem::path& FilePath)
 	{
 		auto Texture = LoadedTextures.find(FilePath.string());
@@ -33,6 +41,7 @@ namespace SF
 
 		return nullptr;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void AssetManager::CleanCycle()
 	{
 		for (auto it = LoadedTextures.begin(); it != LoadedTextures.end();)
@@ -50,10 +59,12 @@ namespace SF
 			}
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void AssetManager::SetAssetRootDirectory(const std::filesystem::path& AssetRootDirectory)
 	{
 		RootDirectory = AssetRootDirectory;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	AssetManager::AssetManager()
 		: LoadedTextures{}
 		, RootDirectory{}

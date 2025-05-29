@@ -18,6 +18,7 @@
 
 namespace SF
 {
+	//--------------------------------------------------------------------------------------------------------
 	Actor::Actor(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
 		: WorldOwningActor{ InWorld }
 		, ActorTexture{}
@@ -26,37 +27,44 @@ namespace SF
 	{
 		SetTexture(FilePath);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::BeginPlay()
 	{
 		/* Default implementation does nothing */
 		//std::string Message = "Actor begin play.";
 		//Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::Tick(float DeltaTime)
 	{
 		/* Default implementation does nothing */
 		//std::string Message = "Actor is ticking at framerate: " + std::to_string(1.f / DeltaTime);
 		//Helpers::WriteLog(GLog, Helpers::LogLevel::Info, Message);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::OnActorBeginOverlap(Actor* OtherActor)
 	{
 		/* Default implementation does nothing */
 		//WriteLog(GLog, GLoglevel, "Actor " + GetName() + " begin overlap with actor: " + OtherActor->GetName());
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::OnActorEndOverlap(Actor* OtherActor)
 	{
 		/* Default implementation does nothing */
 		//WriteLog(GLog, GLoglevel, "Actor " + GetName() + " end overlap with actor: " + OtherActor->GetName());
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::Destroy()
 	{
 		DisablePhysics();
 		Object::Destroy();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::ApplyDamage(float DamageAmount)
 	{ 
 		/* Default implementation does nothing */
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::TickIntelrnal(float DeltaTime)
 	{
 		if (!IsPendingDestroy())
@@ -64,6 +72,7 @@ namespace SF
 			Tick(DeltaTime);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::BeginPlayInternal()
 	{
 		if (!bBeginPlay)
@@ -72,21 +81,31 @@ namespace SF
 			BeginPlay();
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetWorld(World* InWorld)
 	{
 	}
-	World* Actor::GetWorld() const
+	//--------------------------------------------------------------------------------------------------------
+	const World* Actor::GetWorld() const
 	{
 		return WorldOwningActor;
 	}
+	//--------------------------------------------------------------------------------------------------------
+	World* Actor::GetWorld()
+	{
+		return WorldOwningActor;
+	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetName(const std::string& InName)
 	{
 		Name = InName;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	const std::string& Actor::GetName() const
 	{
 		return Name;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetTexture(const std::filesystem::path& FilePath)
 	{
 		auto ActorTexturePtr = AssetManager::Get().LoadTexture(FilePath);
@@ -105,6 +124,7 @@ namespace SF
 			CenterPivot();
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::Render(sf::RenderWindow& Window)
 	{
 		if (IsPendingDestroy())
@@ -113,28 +133,34 @@ namespace SF
 		}
 		Window.draw(ActorSprite);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetActorLocation(const sf::Vector2f& Location)
 	{
 		ActorSprite.setPosition(Location);
 		UpdatePhysicsBodyTransform();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetActorRotation(float Rotation)
 	{
 		ActorSprite.setRotation(sf::degrees( Rotation ));
 		UpdatePhysicsBodyTransform();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::AddActorLocationOffset(const sf::Vector2f& Offset)
 	{
 		SetActorLocation(GetActorLocation() + Offset);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::AddActorRotationOffset(float Offset)
 	{
 		SetActorRotation(GetActorRotation() + Offset);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	sf::Vector2f Actor::GetActorLocation() const
 	{
 		return ActorSprite.getPosition();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	float Actor::GetActorRotation(bool bIsRadians) const
 	{
 		if (bIsRadians)
@@ -144,23 +170,26 @@ namespace SF
 
 		return ActorSprite.getRotation().asDegrees();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	sf::Vector2f Actor::GetActorForwardDirection() const
 	{
 		float Rotation = (std::numbers::pi_v<float> / 2.f) - GetActorRotation(true);
 		return sf::Vector2f(std::cosf(Rotation), std::sinf(Rotation));
 	}
+	//--------------------------------------------------------------------------------------------------------
 	sf::Vector2f Actor::GetActorRightDirection() const
 	{
 		float Rotation = GetActorRotation(true) + std::numbers::pi_v<float> / 2.f;
 		return sf::Vector2f(std::cosf(Rotation), std::sinf(Rotation));
 	}
+	//--------------------------------------------------------------------------------------------------------
 	sf::FloatRect Actor::GetActorGlobalBounds() const
 	{
 		return ActorSprite.getGlobalBounds();
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetActorVisible(bool InVisible)
 	{
-		//TODO: 
 		bIsVisible = InVisible;
 		ActorSprite.setColor(InVisible ? sf::Color::White : sf::Color::Transparent);
 		if (B2_IS_NON_NULL(PhysicsBodyId))
@@ -169,6 +198,7 @@ namespace SF
 			PhysicsSystem::Get().EnableContactEvents(PhysicsBodyId, InVisible);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	bool Actor::IsActorOutOfScreen() const
 	{
 		auto WindowSize = GetWorld()->GetWindowSize();
@@ -183,6 +213,7 @@ namespace SF
 		}
 		return false;
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetEnablePhysics(bool bInEnable)
 	{
 		bPhysicsEnabled = bInEnable;
@@ -195,6 +226,7 @@ namespace SF
 			DisablePhysics();
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::EnablePhysicsSleep()
 	{
 		if (B2_IS_NON_NULL(PhysicsBodyId))
@@ -207,6 +239,7 @@ namespace SF
 			WriteLog(GLog, GLoglevel, "Actor " + GetName() + " has no physics body to enable sleep.");
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::AwakePhysics()
 	{
 		if (B2_IS_NON_NULL(PhysicsBodyId))
@@ -219,14 +252,17 @@ namespace SF
 			WriteLog(GLog, GLoglevel, "Actor " + GetName() + " has no physics body to awake.");
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::SetTeamId(uint32_t InTeamId)
 	{
 		TeamId = InTeamId; // Set the team id
 	}
+	//--------------------------------------------------------------------------------------------------------
 	uint32_t Actor::GetTeamId() const
 	{
 		return TeamId.value_or(DefaultTeamId);
 	}
+	//--------------------------------------------------------------------------------------------------------
 	bool Actor::IsHostileTeam(const Actor* OtherActor) const
 	{
 		if (!OtherActor)
@@ -240,11 +276,13 @@ namespace SF
 
 		return (GetTeamId() != OtherActor->GetTeamId());
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::CenterPivot()
 	{
 		sf::FloatRect Bounds = ActorSprite.getGlobalBounds();
 		ActorSprite.setOrigin(Bounds.getCenter());
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::InitiallizePhysics()
 	{
 		if ( B2_IS_NULL(PhysicsBodyId) )
@@ -252,6 +290,7 @@ namespace SF
 			PhysicsBodyId = PhysicsSystem::Get().AddPhysicsOwnerActor(this);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::DisablePhysics()
 	{
 		if ( B2_IS_NON_NULL(PhysicsBodyId) )
@@ -259,6 +298,7 @@ namespace SF
 			PhysicsSystem::Get().PhysicsBodyToRemove(PhysicsBodyId);
 		}
 	}
+	//--------------------------------------------------------------------------------------------------------
 	void Actor::UpdatePhysicsBodyTransform()
 	{
 		if (B2_IS_NON_NULL(PhysicsBodyId) )

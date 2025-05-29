@@ -90,5 +90,6 @@ namespace SF
 			std::uniform_real_distribution<> Dis(WindowSize.x, WindowSize.x + BulletOffScreenOffset);
 			return { static_cast<float>(Dis(gen)), Owner->GetActorLocation().y };
 		}
+		return { 0.f, 0.f }; // Return a default position if owner is null
 	}
 }
