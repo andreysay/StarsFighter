@@ -9,10 +9,12 @@
 #include "framework/Core.hpp"
 #include "Weapon/Bullet.hpp"
 #include "framework/World.hpp"
+#include "Player/PlayerSpaceship.hpp"
 
 namespace SF
 {
-	const float BulletDefaultSpeed{ -800.f }; // Default bullet speed
+	const float BulletDefaultSpeed{ 800.f }; // Default bullet speed
+	const float PlayerBulletSpeed{ -800.f }; // Default bullet speed
 	//--------------------------------------------------------------------------------------------------------
 	BulletShooter::BulletShooter(Actor* InOwner, float InCooldownTime)
 		: Shooter{ InOwner }
@@ -30,6 +32,7 @@ namespace SF
 				{
 					Bullet->SetActorLocation(Bullet->GetBulletRandomPosition());
 					Bullet->SetActorRotation(InOwner->GetActorRotation());
+					Bullet->SetTeamId(GetOwner()->GetTeamId());
 					Bullet->SetActorVisible(false);
 					//WriteLog(GLog, GLoglevel, "Bullet spawned at: " + std::to_string(Bullet->GetActorLocation().x) + ", " + std::to_string(Bullet->GetActorLocation().y));
 					//WriteLog(GLog, GLoglevel, "Bullet rotation: " + std::to_string(Bullet->GetActorRotation()));
@@ -63,7 +66,16 @@ namespace SF
 					{
 						BulletPtr->SetActorLocation(GetOwner()->GetActorLocation());
 						BulletPtr->SetActorRotation(GetOwner()->GetActorRotation());
-						BulletPtr->SetSpeed(BulletDefaultSpeed); // Set bullet speed
+						//TODO: Refactor this logic
+						if (GetOwner()->GetTeamId() == PlayerSpaceship::PlayerSpaceshipDefaultTeamId)
+						{
+							BulletPtr->SetSpeed(PlayerBulletSpeed); // Set bullet speed
+						}
+						else
+						{
+							BulletPtr->SetSpeed(BulletDefaultSpeed);
+						}
+						
 						BulletPtr->SetActorVisible(true);
 						break;
 					}
@@ -78,7 +90,15 @@ namespace SF
 				{
 					BulletPtr->SetActorLocation(GetOwner()->GetActorLocation());
 					BulletPtr->SetActorRotation(GetOwner()->GetActorRotation());
-					BulletPtr->SetSpeed(BulletDefaultSpeed); // Set bullet speed
+					//TODO: Refactor this logic 
+					if (GetOwner()->GetTeamId() == PlayerSpaceship::PlayerSpaceshipDefaultTeamId)
+					{
+						BulletPtr->SetSpeed(PlayerBulletSpeed); // Set bullet speed
+					}
+					else
+					{
+						BulletPtr->SetSpeed(BulletDefaultSpeed);
+					}
 					//WriteLog(GLog, GLoglevel, "Bullet spawned at: " + std::to_string(Bullet->GetActorLocation().x) + ", " + std::to_string(Bullet->GetActorLocation().y));
 					//WriteLog(GLog, GLoglevel, "Bullet rotation: " + std::to_string(Bullet->GetActorRotation()));
 					Bullets.push_back(BulletPtr);

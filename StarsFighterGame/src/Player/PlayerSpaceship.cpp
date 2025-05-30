@@ -8,9 +8,9 @@ namespace SF
 {
 	PlayerSpaceship::PlayerSpaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
 		: Spaceship{ InWorld, FilePath, InName }
-		, ShooterInstance{ new BulletShooter{ this } }
 	{
 		SetTeamId(PlayerSpaceshipDefaultTeamId);
+		ShooterInstance = std::make_unique<BulletShooter>(this, 0.1f); // Initialize the BooletShooter with a cooldown time
 	}
 	void PlayerSpaceship::Tick(float DeltaTime)
 	{

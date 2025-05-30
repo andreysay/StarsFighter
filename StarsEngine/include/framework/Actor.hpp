@@ -88,7 +88,7 @@ namespace SF
 		//! Check if the actor is visible
 		bool IsActorVisible() const { return bIsVisible; }
 		// ! Determine if the actor is within the screen bounds
-		bool IsActorOutOfScreen() const;
+		bool IsActorOutOfScreen(float Offset = 20.f) const;
 
 		//! Enable or disable physics for the actor
 		//! Called at the beginning of the actor's life cycle

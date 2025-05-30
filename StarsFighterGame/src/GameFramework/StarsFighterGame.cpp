@@ -12,6 +12,7 @@
 #include "Spaceship/Spaceship.hpp"
 #include "framework/AssetManager.hpp"
 #include "Player/PlayerSpaceship.hpp"
+#include "Enemy/Vanguard.hpp"
 #include "Config.h"
 
 
@@ -43,15 +44,13 @@ namespace SF
 			{
 				SpaceShipPtr->SetActorLocation(PlayerStartPosition);
 				SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, Velocity));
-				SpaceShipPtr->SetTeamId(PlayerSpaceship::PlayerSpaceshipDefaultTeamId);
 			}
 
 			const std::filesystem::path FilePath = "SpaceShooterRedux/PNG/playerShip3_red.png";
-			auto SpaceShip = NewWorld->SpawnActor<Spaceship>(FilePath.c_str());
-			if (auto SpaceShipPtr = SpaceShip.lock())
+			auto VanguardShip = NewWorld->SpawnActor<Vanguard>();
+			if (auto VanguardShipPtr = VanguardShip.lock())
 			{
-				SpaceShipPtr->SetActorLocation(ActorStartPosition);
-				SpaceShipPtr->SetTeamId(3);
+				VanguardShipPtr->SetActorLocation(ActorStartPosition);
 			}
 
 		}
@@ -61,4 +60,4 @@ namespace SF
 		}
 	}
 
-}
+}// namespace SF

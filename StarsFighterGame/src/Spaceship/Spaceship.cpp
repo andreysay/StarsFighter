@@ -55,8 +55,8 @@ namespace SF
 	}
 	void Spaceship::OnDead()
 	{
-		std::unique_ptr<Explosion> ExplosionEffect = std::make_unique<Explosion>(100, 1.f);
-		ExplosionEffect->SpawnExplosion(*GetWorld(), GetActorLocation(), 0.5f, 1.f);
+		//std::unique_ptr<Explosion> ExplosionEffect = std::make_unique<Explosion>(100, 1.f);
+		Explosion::SpawnExplosion(*GetWorld(), GetActorLocation(), 100, 0.5f, 1.f);
 		WriteLog(GLog, GLoglevel, "Spaceship is dead!");
 		Destroy();
 	}

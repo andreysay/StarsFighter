@@ -199,15 +199,15 @@ namespace SF
 		}
 	}
 	//--------------------------------------------------------------------------------------------------------
-	bool Actor::IsActorOutOfScreen() const
+	bool Actor::IsActorOutOfScreen(float Offset) const
 	{
 		auto WindowSize = GetWorld()->GetWindowSize();
 		float GlobalWidth = ActorSprite.getGlobalBounds().size.x;
 		float GlobalHeight = ActorSprite.getGlobalBounds().size.y;
 		sf::Vector2f Location = GetActorLocation();
 
-		if (Location.x < -GlobalWidth || Location.x > WindowSize.x + GlobalWidth ||
-			Location.y < -GlobalHeight || Location.y > WindowSize.y + GlobalHeight)
+		if (Location.x < (- GlobalWidth - Offset) || Location.x > WindowSize.x + (GlobalWidth + Offset) ||
+			Location.y < (- GlobalHeight - Offset) || Location.y > WindowSize.y + (GlobalHeight + Offset))
 		{
 			return true;
 		}

@@ -28,6 +28,6 @@ namespace SF
 		sf::Vector2f PlayerVelocity;
 		float Speed{200.f};
 
-		std::shared_ptr<BulletShooter> ShooterInstance;
+		std::unique_ptr<BulletShooter> ShooterInstance;
 	};
 }

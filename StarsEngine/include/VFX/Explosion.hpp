@@ -27,9 +27,9 @@ namespace SF
 		virtual ~Explosion() = default;
 
 		void SpawnExplosion(World& InWorld, const sf::Vector2f& Location);
-		void SpawnExplosion(World& InWorld, const sf::Vector2f& Location, float InLifetimeMin, float inLifetimeMax,
+		static void SpawnExplosion(World& InWorld, const sf::Vector2f& Location, uint32_t InParticleAmount, float InLifetimeMin, float inLifetimeMax,
 			float InParticleSpeedMin = 200.f, float InParticleSpeedMax = 400.f,
-			float InParticleSizeMin = 1.f, float InParticleSizeMax = 2.f,
+			float InParticleSizeMin = 1.f, float InParticleSizeMax = 3.f,
 			const sf::Color& InParticleColor = sf::Color(255, 128, 0, 255)); 
 
 	private:

@@ -34,7 +34,9 @@ namespace SF
 		virtual void OnHeathChanged(float DeltaHealth);
 		virtual void OnTakenDamage(float DamageAmount);
 		virtual void OnDead();
+
 		inline sf::Vector2f GetVelocity() const { return SpaceshipVelocity; }
+		void SetSpaceshipVelocity(const sf::Vector2f& InVelocity) { SpaceshipVelocity = InVelocity; }
 
 	private:
 		//! Blinks the spaceship when it takes damage
