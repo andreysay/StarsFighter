@@ -20,7 +20,7 @@ namespace SF
 	class BulletShooter : public Shooter
 	{
 	public:
-		BulletShooter() = default;
+		BulletShooter() = delete;
 		BulletShooter(Actor* InOwner, float InCooldownTime = 0.1f);
 		bool IsOnCooldown() const override;
 	private:

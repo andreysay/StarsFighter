@@ -22,15 +22,14 @@ namespace SF
 		, Damage{ Damage }
 	{
 		SetTexture(FilePath);
-		//SetTeamId(InOwner->GetTeamId());
-		SetTeamId(2);
+		SetTeamId(InOwner->GetTeamId());
 	}
 	//--------------------------------------------------------------------------------------------------------
 	void Bullet::Tick(float DeltaTime)
 	{
 		Actor::Tick(DeltaTime);
 		Move(DeltaTime);
-		if (IsActorOutOfScreen())
+		if (IsActorOutOfScreen(GetActorGlobalBounds().size.y))
 		{
 			SetActorVisible(false);
 			SetSpeed(0.f); // Stop moving if bullet is out of screen
@@ -45,7 +44,7 @@ namespace SF
 	//-----------------------------------------------------------------------------------
 	void Bullet::OnActorBeginOverlap(Actor* OtherActor)
 	{
-		if (IsHostileTeam(OtherActor))
+  		if (IsHostileTeam(OtherActor))
 		{
 			WriteLog(GLog, GLoglevel, "Bullet hit actor: " + OtherActor->GetName());
 			// Apply damage to the other actor

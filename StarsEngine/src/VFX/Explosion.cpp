@@ -42,12 +42,12 @@ namespace SF
 		}
 	}
 
-	void Explosion::SpawnExplosion(World& InWorld, const sf::Vector2f& Location, float InLifetimeMin, float inLifetimeMax,
+	void Explosion::SpawnExplosion(World& InWorld, const sf::Vector2f& Location, uint32_t InParticleAmount, float InLifetimeMin, float inLifetimeMax,
 		float InParticleSpeedMin, float InParticleSpeedMax,
 		float InParticleSizeMin, float InParticleSizeMax,
 		const sf::Color& InParticleColor)
 	{
-		for (uint32_t i = 0; i < PerticleAmount; ++i)
+		for (uint32_t i = 0; i < InParticleAmount; ++i)
 		{
 			std::string TexturePath = ParticleTextures[SF::Math::RandomNumber<uint32_t>( 0, (ParticleTextures.size() - 1) )];
 			std::weak_ptr<Particle> ParticlePtr = InWorld.SpawnActor<Particle>(TexturePath, "ExplosionParticle");
