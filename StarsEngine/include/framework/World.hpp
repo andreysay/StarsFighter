@@ -14,6 +14,7 @@
 namespace SF
 {
     class GameBaseApp;
+	class GameStage;
 
     /*
 	* The class World represents a level or a game world in which actors exist and interact.
@@ -38,6 +39,10 @@ namespace SF
 		// Gets current world size
 		[[nodiscard]]
         sf::Vector2u GetWindowSize() const;
+
+		void CleanCycle();
+
+		void AddStage(const std::shared_ptr<GameStage>& NewStage);
 		// Spawns a new actor of the specified type with given arguments and returns a weak pointer to it.
         template<typename ActorType, typename... Args>
 		std::weak_ptr<ActorType> SpawnActor(Args... InArgs);
@@ -45,6 +50,10 @@ namespace SF
     protected:
         virtual void BeginPlay();
         virtual void Tick(float DeltaTime);
+		virtual void InitGameStages();
+		virtual void AllGameStageFinished();
+
+		void NextGameStage();
 
     private:
         //GameBaseApp* WorldOwningApp{ nullptr };
@@ -54,6 +63,9 @@ namespace SF
 		std::vector<std::shared_ptr<Actor>> Actors;
 		// Actors pending to be added to the world
 		std::vector<std::shared_ptr<Actor>> PendingActors;
+		// Pending Game stages
+		std::vector<std::shared_ptr<GameStage>> GameStages;
+		int CurrentStageIndex;
     };
 	//--------------------------------------------------------------------------------------------------------
 	template<typename ActorType, typename... Args>

@@ -7,7 +7,7 @@
 */
 #pragma once
 #include "framework/World.hpp"
-#include "framework/TimerHandler.hpp"
+#include "framework/TimersHandler.hpp"
 
 namespace SF
 {
@@ -25,6 +25,7 @@ namespace SF
 	protected:
 		virtual void Tick(float deltaTime) override;
 		virtual void BeginPlay() override;
+		virtual void InitGameStages() override;
 
 	private:
 		void TimerCallbackTest();

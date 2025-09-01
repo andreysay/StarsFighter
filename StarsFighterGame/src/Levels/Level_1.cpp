@@ -12,7 +12,8 @@
 #include "Spaceship/Spaceship.hpp"
 #include "Player/PlayerSpaceship.hpp"
 #include "Enemy/Vanguard.hpp"
-#include "framework/TimerHandler.hpp"
+#include "framework/TimersHandler.hpp"
+#include "gameplay/GameStage.hpp"
 
 namespace SF
 {
@@ -46,7 +47,11 @@ namespace SF
 	}
 	void Level_1::BeginPlay()
 	{
-		Key = TimerHandler::Get().RegisterTimer(GetWeakPtr(), &Level_1::TimerCallbackTest, 3.f, true);
+		Key = TimersHandler::Get().RegisterTimer(GetWeakPtr(), &Level_1::TimerCallbackTest, 3.f, true);
+	}
+	void Level_1::InitGameStages()
+	{
+		AddStage(std::shared_ptr<GameStage>{new GameStage{ this }});
 	}
 	void Level_1::TimerCallbackTest()
 	{

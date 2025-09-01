@@ -48,8 +48,8 @@ add_library(${STARS_ENGINE_TARGET_NAME} STATIC
   include/VFX/Explosion.hpp
   src/VFX/Explosion.cpp
 
-  include/framework/TimerHandler.hpp
-  src/framework/TimerHandler.cpp
+  include/framework/TimersHandler.hpp
+  src/framework/TimersHandler.cpp
 
  include/gameplay/GameStage.hpp
  src/gameplay/GameStage.cpp

@@ -5,13 +5,13 @@
 *  Created by Andrey Spitsyn 02.06.2025
 *  Copyright 2025 Nesstronic. All rights reserved.
 */
-#include "framework/TimerHandler.hpp"
+#include "framework/TimersHandler.hpp"
 #include "framework/Core.hpp"
 
 namespace SF
 {
 	uint32_t TimerKey::TimerKeyCounter = 0;
-	std::unique_ptr<TimerHandler> TimerHandler::TimersHandler{ nullptr };
+	std::unique_ptr<TimersHandler> TimersHandler::GameTimersManager{ nullptr };
 
 	//----------------------------------------------------------------------
 	Timer::Timer(std::weak_ptr<Object> InObjectWeakPtr, std::function<void()> InCallback, float InTimeInterval, bool bInRepeated)
@@ -52,16 +52,16 @@ namespace SF
 		bExpired = true;
 	}
 	//------------------------------------------------------------------
-	TimerHandler& TimerHandler::Get()
+	TimersHandler& TimersHandler::Get()
 	{
-		if(!TimersHandler)
+		if(!GameTimersManager)
 		{
-			TimersHandler = std::unique_ptr<TimerHandler>{ new TimerHandler };
+			GameTimersManager = std::unique_ptr<TimersHandler>{ new TimersHandler };
 		}
-		return *TimersHandler;
+		return *GameTimersManager;
 	}
 	//------------------------------------------------------------------
-	void TimerHandler::UpdateTimer(float DeltaTime)
+	void TimersHandler::UpdateTimer(float DeltaTime)
 	{
 		for (auto& [index, LTimer] : Timers)
 		{
@@ -72,7 +72,7 @@ namespace SF
 		}
 	}
 	//------------------------------------------------------------------
-	void TimerHandler::ExpireTimer(TimerKey Key)
+	void TimersHandler::ExpireTimer(TimerKey Key)
 	{
 		auto IterTimer = Timers.find(Key);
 		if(IterTimer != Timers.end())
@@ -81,12 +81,12 @@ namespace SF
 		}
 		else
 		{
-			auto Message = ("TimerHandler::ExpireTimer: Invalid timer index: %u", Key.GetTimerKey());
+			auto Message = ("TimersHandler::ExpireTimer: Invalid timer index: %u", Key.GetTimerKey());
 			WriteLog(GLog, GLoglevel, Message);
 		}
 	}
 	//------------------------------------------------------------------
-	void TimerHandler::EraseExpiredTimers()
+	void TimersHandler::EraseExpiredTimers()
 	{
 		for(auto TimerIter = Timers.begin(); TimerIter != Timers.end();)
 		{
@@ -101,7 +101,7 @@ namespace SF
 		}
 	}
 	//----------------------------------------------------------------------
-	TimerHandler::TimerHandler()
+	TimersHandler::TimersHandler()
 	{
 	}
 	//------------------------------------------------------------------

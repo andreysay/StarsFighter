@@ -53,16 +53,16 @@ namespace SF
 		bool bExpired = false; // Whether the timer has expired or not
 	};
 
-	class TimerHandler
+	class TimersHandler
 	{
 	public:
-		~TimerHandler() = default;
-		TimerHandler(const TimerHandler&) = delete;
-		TimerHandler& operator=(const TimerHandler&) = delete;
-		TimerHandler(TimerHandler&&) = delete;
-		TimerHandler& operator=(TimerHandler&&) = delete;
+		~TimersHandler() = default;
+		TimersHandler(const TimersHandler&) = delete;
+		TimersHandler& operator=(const TimersHandler&) = delete;
+		TimersHandler(TimersHandler&&) = delete;
+		TimersHandler& operator=(TimersHandler&&) = delete;
 		//! Returns the singleton instance of TimerHandler
-		static TimerHandler& Get();
+		static TimersHandler& Get();
 		//! Registers a timer with a callback function and time interval
 		//! Returns the index of the timer
 		template<typename ClassName>
@@ -78,11 +78,11 @@ namespace SF
 		void EraseExpiredTimers();
 
 	protected:
-		TimerHandler();
+		TimersHandler();
 
 
 	private:
-		static std::unique_ptr<TimerHandler> TimersHandler;
+		static std::unique_ptr<TimersHandler> GameTimersManager;
 		std::unordered_map<TimerKey, Timer, TimerKeyHash> Timers;
 	};
 }
