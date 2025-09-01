@@ -39,12 +39,12 @@ namespace SF
 	void Bullet::BeginPlay()
 	{
 		Actor::BeginPlay();
-		SetEnablePhysics(true);
+		//SetEnablePhysics(true);
 	}
 	//-----------------------------------------------------------------------------------
 	void Bullet::OnActorBeginOverlap(Actor* OtherActor)
 	{
-  		if (IsHostileTeam(OtherActor))
+		if (IsHostileTeam(OtherActor) && OtherActor->IsNotBullet())
 		{
 			WriteLog(GLog, GLoglevel, "Bullet hit actor: " + OtherActor->GetName());
 			// Apply damage to the other actor
@@ -54,7 +54,10 @@ namespace SF
 			}
 			SetActorVisible(false); // Hide bullet after hit
 			SetSpeed(0.f); // Stop moving after hit
-			SetActorLocation(GetBulletRandomPosition()); // Reset bullet position to a random off-screen position
+			if (!Owner->IsPendingDestroy())
+			{
+				SetActorLocation(GetBulletRandomPosition()); // Reset bullet position to a random off-screen position
+			}
 		}
 	}
 	//-----------------------------------------------------------------------------------
@@ -81,14 +84,16 @@ namespace SF
 	//-----------------------------------------------------------------------------------
 	sf::Vector2f Bullet::GetBulletRandomPosition() const
 	{
-		if (Owner)
+		if (!Owner || Owner->GetWeakPtr().expired() || Owner->IsPendingDestroy())
 		{
-			static std::random_device Rd;  // Will be used to obtain a seed for the random number engine
-			static std::mt19937 gen(Rd()); // Standard mersenne_twister_engine seeded with rd()
-			auto WindowSize = Owner->GetWorld()->GetWindowSize();
-			std::uniform_real_distribution<> Dis(WindowSize.x, WindowSize.x + BulletOffScreenOffset);
-			return { static_cast<float>(Dis(gen)), Owner->GetActorLocation().y };
+			return { 0.f, 0.f }; // Return a default position if owner is null
+			WriteLog(GLog, GLoglevel, "Bullet owner is null or pending destroy. Returning default position.");
 		}
-		return { 0.f, 0.f }; // Return a default position if owner is null
+
+		static std::random_device Rd;  // Will be used to obtain a seed for the random number engine
+		static std::mt19937 gen(Rd()); // Standard mersenne_twister_engine seeded with rd()
+		auto WindowSize = Owner->GetWorld()->GetWindowSize();
+		std::uniform_real_distribution<> Dis(WindowSize.x, WindowSize.x + BulletOffScreenOffset);
+		return { static_cast<float>(Dis(gen)), Owner->GetActorLocation().y };
 	}
 }

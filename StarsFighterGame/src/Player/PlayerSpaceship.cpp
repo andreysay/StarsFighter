@@ -11,6 +11,8 @@ namespace SF
 	{
 		SetTeamId(PlayerSpaceshipDefaultTeamId);
 		ShooterInstance = std::make_unique<BulletShooter>(this, 0.1f); // Initialize the BooletShooter with a cooldown time
+		std::string LogMessage = "PlayerSpaceship created with ID: " + std::to_string(GetTeamId());
+		WriteLog(GLog, GLoglevel, LogMessage);
 	}
 	void PlayerSpaceship::Tick(float DeltaTime)
 	{

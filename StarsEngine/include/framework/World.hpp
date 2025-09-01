@@ -8,6 +8,7 @@
 #pragma once
 #include "framework/Core.hpp"
 #include "framework/Actor.hpp"
+#include "framework/Object.hpp"
 #include <vector>
 
 namespace SF
@@ -17,7 +18,7 @@ namespace SF
     /*
 	* The class World represents a level or a game world in which actors exist and interact.
     */
-    class World
+	class World : public Object
     {
     public:
 		World() = delete;
@@ -42,8 +43,8 @@ namespace SF
 		std::weak_ptr<ActorType> SpawnActor(Args... InArgs);
 
     protected:
-        void BeginPlay();
-        void Tick(float DeltaTime);
+        virtual void BeginPlay();
+        virtual void Tick(float DeltaTime);
 
     private:
         //GameBaseApp* WorldOwningApp{ nullptr };

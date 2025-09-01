@@ -47,6 +47,12 @@ add_library(${STARS_ENGINE_TARGET_NAME} STATIC
 
   include/VFX/Explosion.hpp
   src/VFX/Explosion.cpp
+
+  include/framework/TimerHandler.hpp
+  src/framework/TimerHandler.cpp
+
+ include/gameplay/GameStage.hpp
+ src/gameplay/GameStage.cpp
 )
 
 target_include_directories(${STARS_ENGINE_TARGET_NAME} PUBLIC

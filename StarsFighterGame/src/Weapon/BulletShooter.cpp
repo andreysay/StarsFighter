@@ -77,6 +77,7 @@ namespace SF
 						}
 						
 						BulletPtr->SetActorVisible(true);
+						BulletPtr->SetEnablePhysics(true);
 						break;
 					}
 				}
@@ -98,6 +99,7 @@ namespace SF
 					else
 					{
 						BulletPtr->SetSpeed(BulletDefaultSpeed);
+						BulletPtr->SetEnablePhysics(true);
 					}
 					//WriteLog(GLog, GLoglevel, "Bullet spawned at: " + std::to_string(Bullet->GetActorLocation().x) + ", " + std::to_string(Bullet->GetActorLocation().y));
 					//WriteLog(GLog, GLoglevel, "Bullet rotation: " + std::to_string(Bullet->GetActorRotation()));

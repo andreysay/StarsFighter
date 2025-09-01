@@ -8,6 +8,7 @@
 #include "framework/GameBaseApp.hpp"
 #include "framework/AssetManager.hpp"
 #include "framework/PhysicsSystem.hpp"
+#include "framework/TimerHandler.hpp"
 
 namespace SF
 {
@@ -70,12 +71,14 @@ void GameBaseApp::TickInternal(float DeltaTime)
     }
 
     PhysicsSystem::Get().Step(DeltaTime);
+    TimerHandler::Get().UpdateTimer(DeltaTime);
 
 	// Cleanup unused assets
 	if (CleanCycleClock.getElapsedTime().asSeconds() > CleanCycleInterval)
 	{
 		CleanCycleClock.restart();
 		AssetManager::Get().CleanCycle();
+		TimerHandler::Get().EraseExpiredTimers();
 	}
 }
 //--------------------------------------------------------------------------------------------------------

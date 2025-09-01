@@ -10,9 +10,6 @@ namespace SF
 	class PlayerSpaceship : public Spaceship
 	{
 	public:
-		static const uint32_t PlayerSpaceshipDefaultTeamId = 2; // Default team id for the player spaceship, used for identification of a groups objects in the game
-
-	public:
 		PlayerSpaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName = "PlayerSpaceship");
 		void Tick(float DeltaTime) override;
 		void Shoot() override;

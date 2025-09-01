@@ -23,6 +23,7 @@ namespace SF
 		virtual void BeginPlay() override;
 		virtual void OnActorBeginOverlap(Actor* OtherActor) override;
 		virtual void OnActorEndOverlap(Actor* OtherActor) override;
+		virtual bool IsNotBullet() const override { return false; }
 
 		//! Set the speed of the bullet
 		void SetSpeed(float InSpeed);

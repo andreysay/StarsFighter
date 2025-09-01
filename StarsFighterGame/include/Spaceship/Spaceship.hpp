@@ -16,6 +16,9 @@ namespace SF
 	class Spaceship : public Actor
 	{
 	public:
+		static const uint32_t PlayerSpaceshipDefaultTeamId; // Default team id for the player spaceship, used for identification of a groups objects in the game
+		static const uint32_t EnemySpaceshipDefaultTeamId; // Default team id for the spaceship, used for identification of a groups objects in the game
+	public:
 		//! Constructor for Spaceship, initializes the actor with a texture and name.
 		Spaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName = "Spaceship");
 		Spaceship(const Spaceship&) = delete;

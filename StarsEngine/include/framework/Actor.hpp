@@ -104,6 +104,7 @@ namespace SF
 		uint32_t GetTeamId() const;
 		//! Check if the other actor is part of a hostile team
 		bool IsHostileTeam(const Actor* OtherActor) const;
+		virtual bool IsNotBullet() const { return true; } // Default implementation, can be overridden by derived classes
 
 		sf::Sprite& GetActorSprite() { return ActorSprite; }
 		const sf::Sprite& GetActorSprite() const { return ActorSprite; }
