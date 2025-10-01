@@ -11,8 +11,8 @@
 
 namespace SF
 {
-	Spaceship::Spaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
-		: Actor{ InWorld, FilePath, InName }
+	Spaceship::Spaceship(World* InWorld, const std::filesystem::path& FilePath, bool IsAnimated, const std::string& InName)
+		: Actor{ InWorld, FilePath, IsAnimated, InName }
 		, HealthComponent{ 100.f, 100.f }
 	{
 	}
@@ -55,11 +55,18 @@ namespace SF
 	}
 	void Spaceship::OnDead()
 	{
-		//std::unique_ptr<Explosion> ExplosionEffect = std::make_unique<Explosion>(100, 1.f);
-		Explosion::SpawnExplosion(*GetWorld(), GetActorLocation(), 100, 0.5f, 1.f);
-		WriteLog(GLog, GLoglevel, "Spaceship is dead!");
+		Explosion::SpawnExplosion(GetWorld(), GetActorLocation(), 20);
+		auto Message = GetName() + " is dead! ( " + std::to_string(GetActorLocation().x) + " " + std::to_string(GetActorLocation().y) + " )";
+		WriteLog(GLog, GLoglevel, Message);
 		Destroy();
 	}
+	//----------------------------------------------------------------------------------------------------------------------------------
+	void Spaceship::SetHealth(float InCurrentHealth, float InMaxHealth)
+	{
+		HealthComponent.SetMaxHealth(InMaxHealth);
+		HealthComponent.ChangeCurrentHealth(InCurrentHealth);
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------
 	void Spaceship::Blink()
 	{
 		if (BlinkTime == 0.f)

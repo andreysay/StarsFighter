@@ -32,7 +32,9 @@ add_executable(${STARSFIGHTER_GAME_TARGET_NAME}
 
  include/Levels/Level_1.hpp
  src/Levels/Level_1.cpp
-)
+
+ include/Enemy/VanguardStage.hpp
+ src/Enemy/VanguardStage.cpp)
 
 target_include_directories(${STARSFIGHTER_GAME_TARGET_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include

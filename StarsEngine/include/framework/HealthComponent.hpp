@@ -41,6 +41,8 @@ namespace SF
 		bool IsInvincibleActive() const { return bIsInvincibleActive; }
 		bool IsHealingActive() const { return bIsHealingActive; }
 		void SetInvincibility(float InInvincibilityTime);
+		void SetCurrentHealth(float InCurrentHealth);
+		void SetMaxHealth(float InMaxHealth) { MaxHealth = InMaxHealth; }
 
 		//! Delegate
 		Delegate<> OnDead;
@@ -48,8 +50,6 @@ namespace SF
 		Delegate<float> OnTakenDamage;
 
 	protected:
-		void SetCurrentHealth(float InCurrentHealth);
-		void SetMaxHealth(float InMaxHealth) { MaxHealth = InMaxHealth; }
 		void SetIsDead(bool bInIsDead) { bIsDead = bInIsDead; }
 
 		void TakenDamage(float DamageAmount);

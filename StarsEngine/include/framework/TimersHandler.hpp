@@ -13,6 +13,7 @@
 
 namespace SF
 {
+	//! Unique key for identifying timers
 	struct TimerKey
 	{
 		TimerKey();

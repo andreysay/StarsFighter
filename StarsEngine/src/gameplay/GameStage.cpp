@@ -16,7 +16,7 @@ namespace SF
 
 	void GameStage::TickStage(float DeltaTime)
 	{
-		Helpers::WriteLog(GLog, Helpers::LogLevel::Error, "Stage Ticking");
+
 	}
 
 	void GameStage::FinishStage()

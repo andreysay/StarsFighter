@@ -28,10 +28,9 @@ namespace SF
 		virtual void InitGameStages() override;
 
 	private:
-		void TimerCallbackTest();
+
 
 	private:
 		// Add private members for level data, entities, etc.
-		TimerKey Key; // Example timer index for testing
 	};
 } // namespace SFG::Levels

@@ -14,6 +14,7 @@
 #include "Enemy/Vanguard.hpp"
 #include "framework/TimersHandler.hpp"
 #include "gameplay/GameStage.hpp"
+#include "Enemy/VanguardStage.hpp"
 
 namespace SF
 {
@@ -27,18 +28,20 @@ namespace SF
 		auto WindowSize = OwningApp.GetWindowSize();
 		const Vector2f PlayerStartPosition = { WindowSize.x * 0.5f, WindowSize.y * 0.8f };
 		const Vector2f ActorStartPosition = { WindowSize.x * 0.5f, WindowSize.y * 0.1f };
-		auto PlayerOwnSpaceShip = SpawnActor<PlayerSpaceship>(PlayerSpaceshipTexturePath);
+		auto PlayerOwnSpaceShip = SpawnActor<PlayerSpaceship>(PlayerSpaceshipTexturePath, true);
 		if (auto SpaceShipPtr = PlayerOwnSpaceShip.lock())
 		{
 			SpaceShipPtr->SetActorLocation(PlayerStartPosition);
 			SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, Velocity));
+			SpaceShipPtr->SetHealth(1000.f, 1000.f);
+			SpaceShipPtr->SetShooterLocation();
 		}
 
-		auto VanguardShip = SpawnActor<Vanguard>();
-		if (auto VanguardShipPtr = VanguardShip.lock())
-		{
-			VanguardShipPtr->SetActorLocation(ActorStartPosition);
-		}
+		//auto VanguardShip = SpawnActor<Vanguard>();
+		//if (auto VanguardShipPtr = VanguardShip.lock())
+		//{
+		//	VanguardShipPtr->SetActorLocation(ActorStartPosition);
+		//}
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	void Level_1::Tick(float deltaTime)
@@ -47,15 +50,10 @@ namespace SF
 	}
 	void Level_1::BeginPlay()
 	{
-		Key = TimersHandler::Get().RegisterTimer(GetWeakPtr(), &Level_1::TimerCallbackTest, 3.f, true);
+
 	}
 	void Level_1::InitGameStages()
 	{
-		AddStage(std::shared_ptr<GameStage>{new GameStage{ this }});
-	}
-	void Level_1::TimerCallbackTest()
-	{
-		//TimerHandler::Get().ExpireTimer(Key);
-		WriteLog(GLog, GLoglevel, "TimerCallbackTest called after 3 seconds in Level_1");
+		AddStage(std::shared_ptr<VanguardStage>{new VanguardStage{ this }});
 	}
 } // namespace SF

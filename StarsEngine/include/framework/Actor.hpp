@@ -17,7 +17,7 @@
 namespace SF
 {
 	class World;
-	class GameBaseApp;
+	class Animation;
 	//! Base class for any entity in the game
 	//! Inherits from Object and provides functionality for rendering, updating, and interacting with the game world.
 	class Actor : public Object
@@ -27,12 +27,12 @@ namespace SF
 		const static uint32_t DefaultTeamId = 0; 
 	public:
 		Actor() = delete;
-		Actor(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName = "Actor");
+		Actor(World* InWorld, const std::filesystem::path& FilePath, bool IsAnimated = false, const std::string& InName = "Actor");
 		Actor(const Actor&) = delete;
 		Actor(Actor&&) = delete;
 		Actor& operator=(const Actor&) = delete;
 		Actor& operator=(Actor&&) = delete;
-		virtual ~Actor() = default;
+		virtual ~Actor();
 
 		//! Called when the actor is first created and added to the world
 		virtual void BeginPlay();
@@ -61,7 +61,7 @@ namespace SF
 		//! Get the name of the actor
 		const std::string& GetName() const;
 		//! Set the texture for the actor from a file path
-		void SetTexture(const std::filesystem::path& FilePath);
+		void SetTexture(const std::filesystem::path& FilePath, bool IsAnimated = false);
 		//! Render the actor to the specified window
 		void Render(sf::RenderWindow& Window);
 		//! Set the actor's location
@@ -127,6 +127,7 @@ namespace SF
 
 		sf::Texture ActorTexture;
 		sf::Sprite ActorSprite;
+		std::unique_ptr<Animation> ActorAnimation;
 
 		b2BodyId PhysicsBodyId = b2_nullBodyId;
 		bool bPhysicsEnabled{ false };

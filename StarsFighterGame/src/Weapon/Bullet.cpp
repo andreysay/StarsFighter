@@ -15,8 +15,8 @@ namespace SF
 {
 	static const float BulletOffScreenOffset{ 200.f }; // Offset to consider bullet off-screen
 	//--------------------------------------------------------------------------------------------------------
-	Bullet::Bullet(World* InWorld, Actor* InOwner, const std::filesystem::path& FilePath, float Speed, float Damage, const std::string& InName)
-		: Actor{ InWorld, FilePath, InName }
+	Bullet::Bullet(World* InWorld, Actor* InOwner, const std::filesystem::path& FilePath, float Speed, float Damage, bool IsAnimated, const std::string& InName)
+		: Actor{ InWorld, FilePath, IsAnimated, InName }
 		, Owner{ InOwner }
 		, Speed{ Speed }
 		, Damage{ Damage }

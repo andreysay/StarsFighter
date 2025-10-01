@@ -25,7 +25,11 @@ namespace SF
 	void Timer::TickTime(float DeltaTime)
 	{
 		if (Expired())
+		{
+			auto Message = ("Timer is expired!");
+			WriteLog(GLog, GLoglevel, Message);
 			return;
+		}
 
 		TimeElapsed += DeltaTime;
 		if(TimeElapsed >= TimeInterval)
@@ -106,7 +110,7 @@ namespace SF
 	}
 	//------------------------------------------------------------------
 	TimerKey::TimerKey()
-		: Key{ 0 }
+		: Key{ GenerateTimerKey() }
 	{
 	}
 }// namespace SF

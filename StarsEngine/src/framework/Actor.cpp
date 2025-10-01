@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <numbers>
+#include <ranges>
 
 #include "framework/Core.hpp"
 #include "framework/World.hpp"
@@ -18,14 +19,78 @@
 
 namespace SF
 {
+	struct Frame {
+		sf::IntRect rect{};
+		double duration = 0; // in seconds
+	};
+
+	class Animation {
+		std::vector<Frame> frames;
+		double totalLength = 0;
+		double totalProgress = 0;
+		sf::Sprite* Target = nullptr;
+		bool IsReverse = false;
+	public:
+		Animation() = default;
+		Animation(sf::Sprite& target) {
+			Target = &target;
+			totalProgress = 0.0;
+		}
+		~Animation(){}
+
+		void addFrame(Frame&& frame) {
+			frames.push_back(std::move(frame));
+			totalLength += frame.duration;
+		}
+
+		void update(double elapsed) {
+			if (Target == nullptr || frames.empty()) return;
+			totalProgress += elapsed;
+			double progress = totalProgress;
+			auto BackFrames = std::views::reverse(frames);
+			auto ForwardFrames = std::views::reverse(BackFrames);
+			if (IsReverse)
+			{
+				Play(ForwardFrames, progress);
+			}
+			else {
+				Play(BackFrames, progress);
+			}
+		}
+
+		template<std::ranges::view ViewType>
+		void Play(ViewType InFrames, double& InProgress)
+		{
+			for (const auto& frame : InFrames) {
+				InProgress -= frame.duration;
+
+				if (InProgress <= 0.0)
+				{
+					Target->setTextureRect(frame.rect);
+					if (&frame == &InFrames.back())
+					{
+						totalProgress = 0.0;
+						IsReverse = !IsReverse;
+						return;
+					}
+					break; // we found our frame
+				}
+			}
+		}
+	};
 	//--------------------------------------------------------------------------------------------------------
-	Actor::Actor(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
+	Actor::Actor(World* InWorld, const std::filesystem::path& FilePath, bool IsAnimated, const std::string& InName)
 		: WorldOwningActor{ InWorld }
 		, ActorTexture{}
 		, ActorSprite{ ActorTexture }
+		, ActorAnimation{ nullptr }
 		, Name{ InName }
 	{
-		SetTexture(FilePath);
+		SetTexture(FilePath, IsAnimated);
+	}
+	//--------------------------------------------------------------------------------------------------------
+	Actor::~Actor()
+	{
 	}
 	//--------------------------------------------------------------------------------------------------------
 	void Actor::BeginPlay()
@@ -69,6 +134,8 @@ namespace SF
 	{
 		if (!IsPendingDestroy())
 		{
+			if(ActorAnimation)
+				ActorAnimation->update(DeltaTime);
 			Tick(DeltaTime);
 		}
 	}
@@ -106,13 +173,33 @@ namespace SF
 		return Name;
 	}
 	//--------------------------------------------------------------------------------------------------------
-	void Actor::SetTexture(const std::filesystem::path& FilePath)
+	void Actor::SetTexture(const std::filesystem::path& FilePath, bool IsAnimated)
 	{
 		auto ActorTexturePtr = AssetManager::Get().LoadTexture(FilePath);
 		if (!ActorTexturePtr)
 		{
 			std::string Message = "Actor " + GetName() + " Failed to load texture from file: " + FilePath.string();
 			Helpers::WriteLog(GLog, Helpers::LogLevel::Error, Message);
+		}
+		else if (IsAnimated)
+		{
+			ActorTexture = *ActorTexturePtr;
+			ActorSprite.setTexture(ActorTexture);
+			ActorSprite.setTextureRect(sf::IntRect{ sf::Vector2i{0, 0}, {128, 128} });
+			ActorSprite.setOrigin(sf::Vector2f{ (float)ActorSprite.getTextureRect().size.x / 2, (float)ActorSprite.getTextureRect().size.y / 2 });
+
+			ActorAnimation = std::unique_ptr<Animation>{ new Animation{ ActorSprite } };
+			if (ActorAnimation)
+			{
+				for (int i = 0; i < 4; ++i) {
+					Frame frame;
+					frame.rect = sf::IntRect(sf::Vector2i{ i * 128, 0 }, { 128, 128 });
+					frame.duration = 0.2; // each frame lasts 0.2 seconds
+					ActorAnimation->addFrame(std::move(frame));
+				}
+			}
+
+			CenterPivot();
 		}
 		else
 		{

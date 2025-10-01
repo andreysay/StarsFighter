@@ -15,7 +15,7 @@ namespace SF
 	class EnemySpaceship : public Spaceship
 	{
 	public:
-		EnemySpaceship(World* InWorld, const std::filesystem::path& FilePath, float InCollisionDamage = -200.f, const std::string& InName = "EnemySpaceship");
+		EnemySpaceship(World* InWorld, const std::filesystem::path& FilePath, float InCollisionDamage = -200.f, bool IsAnimated = false, const std::string& InName = "EnemySpaceship");
 		EnemySpaceship(const EnemySpaceship&) = delete;
 		EnemySpaceship(EnemySpaceship&&) = delete;
 		EnemySpaceship& operator=(const EnemySpaceship&) = delete;

@@ -17,8 +17,8 @@ namespace SF
 
 		virtual void StartStage();
 		virtual void TickStage(float DeltaTime);
-
-		void FinishStage();
+		virtual void FinishStage();
+		
 		bool IsStageFinish() const { return IsStageFinished; }
 
 	protected:
@@ -26,6 +26,6 @@ namespace SF
 
 	private:
 		World* GameWorld;
-		bool IsStageFinished;
+		bool IsStageFinished{ false };
 	};
 }

@@ -9,7 +9,7 @@
 #include "Weapon/BulletShooter.hpp"
 
 SF::Vanguard::Vanguard(World* InWorld, const std::filesystem::path& FilePath, float InCollisionDamage, const std::string& InName)
-	: EnemySpaceship{ InWorld, FilePath, InCollisionDamage, InName }
+	: EnemySpaceship{ InWorld, FilePath, InCollisionDamage, false, InName }
 {
 	// Set the team id for the Vanguard enemy spaceship
 	SetTeamId(EnemySpaceshipDefaultTeamId);

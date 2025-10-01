@@ -23,6 +23,8 @@ namespace SF
 		BulletShooter() = delete;
 		BulletShooter(Actor* InOwner, float InCooldownTime = 0.1f);
 		bool IsOnCooldown() const override;
+		void SetShooterLocation(const sf::Vector2f& InLocation);
+		
 	private:
 		virtual void Shoot_Impl() override;
 		
@@ -30,5 +32,6 @@ namespace SF
 		std::vector<std::weak_ptr<Bullet>> Bullets;
 		sf::Clock CooldownClock;
 		float CooldownTime{ 0.1f }; // Example cooldown time in seconds
+		std::optional<sf::Vector2f> Location;
 	};
 }

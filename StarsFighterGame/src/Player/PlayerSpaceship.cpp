@@ -6,8 +6,8 @@
 
 namespace SF
 {
-	PlayerSpaceship::PlayerSpaceship(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
-		: Spaceship{ InWorld, FilePath, InName }
+	PlayerSpaceship::PlayerSpaceship(World* InWorld, const std::filesystem::path& FilePath, bool IsAnimated, const std::string& InName)
+		: Spaceship{ InWorld, FilePath, IsAnimated, InName }
 	{
 		SetTeamId(PlayerSpaceshipDefaultTeamId);
 		ShooterInstance = std::make_unique<BulletShooter>(this, 0.1f); // Initialize the BooletShooter with a cooldown time
@@ -26,6 +26,15 @@ namespace SF
 			ShooterInstance->Shoot();
 		}
 	}
+
+	void PlayerSpaceship::SetShooterLocation()
+	{
+		auto ActorBounds = GetActorSprite().getGlobalBounds();
+		auto Offset = ActorBounds.size.x / 2.f;
+		sf::Vector2f ActorLocation = sf::Vector2f{ GetActorLocation().x + Offset, GetActorLocation().y };
+		ShooterInstance->SetShooterLocation(ActorLocation);
+	}
+
 	void PlayerSpaceship::HandleInput(float DeltaTime)
 	{
 		sf::Vector2f Direction{ 0.f, 0.f };
