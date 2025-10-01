@@ -51,6 +51,20 @@ namespace SF
 		return CooldownClock.getElapsedTime().asSeconds() < CooldownTime;
 	}
 
+	void BulletShooter::SetShooterLocation(const sf::Vector2f& InLocation)
+	{
+		if (Location.has_value())
+		{
+			if (Location->x == InLocation.x && Location->y == InLocation.y)
+			{
+				// No change in location
+				return;
+			}
+		}
+		WriteLog(GLog, GLoglevel, "Setting shooter location to: " + std::to_string(InLocation.x) + ", " + std::to_string(InLocation.y));
+		Location = std::optional<sf::Vector2f>({ InLocation.x, InLocation.y });
+	}
+
 	void BulletShooter::Shoot_Impl()
 	{
 		CooldownClock.restart();
@@ -64,7 +78,19 @@ namespace SF
 				{
 					if (!BulletPtr->IsActorVisible())
 					{
-						BulletPtr->SetActorLocation(GetOwner()->GetActorLocation());
+						if(Location.has_value())
+						{
+							if(auto Player = dynamic_cast<PlayerSpaceship*>(GetOwner()))
+							{
+								Player->SetShooterLocation();
+							}
+							BulletPtr->SetActorLocation(Location.value());
+						}
+						else
+						{
+							BulletPtr->SetActorLocation(GetOwner()->GetActorLocation());
+						}
+						//BulletPtr->SetActorLocation(GetOwner()->GetActorLocation());
 						BulletPtr->SetActorRotation(GetOwner()->GetActorRotation());
 						//TODO: Refactor this logic
 						if (GetOwner()->GetTeamId() == PlayerSpaceship::PlayerSpaceshipDefaultTeamId)
@@ -77,6 +103,7 @@ namespace SF
 						}
 						
 						BulletPtr->SetActorVisible(true);
+						BulletPtr->SetEnablePhysics(true);
 						break;
 					}
 				}
@@ -98,6 +125,7 @@ namespace SF
 					else
 					{
 						BulletPtr->SetSpeed(BulletDefaultSpeed);
+						BulletPtr->SetEnablePhysics(true);
 					}
 					//WriteLog(GLog, GLoglevel, "Bullet spawned at: " + std::to_string(Bullet->GetActorLocation().x) + ", " + std::to_string(Bullet->GetActorLocation().y));
 					//WriteLog(GLog, GLoglevel, "Bullet rotation: " + std::to_string(Bullet->GetActorRotation()));

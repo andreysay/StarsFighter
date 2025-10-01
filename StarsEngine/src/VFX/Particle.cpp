@@ -8,8 +8,8 @@
 #include "VFX/Particle.hpp"
 #include "framework/MathUtility.hpp"
 
-SF::Particle::Particle(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName)
-	: Actor(InWorld, FilePath, InName)
+SF::Particle::Particle(World* InWorld, const std::filesystem::path& FilePath, bool IsAnimated, const std::string& InName)
+	: Actor(InWorld, FilePath, IsAnimated, InName)
 {
 }
 

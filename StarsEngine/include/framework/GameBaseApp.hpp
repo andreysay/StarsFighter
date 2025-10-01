@@ -10,7 +10,7 @@
 #include <SFML/Graphics.hpp>
 #include "framework/World.hpp"
 
-using namespace sf;;
+using namespace sf;
 
 namespace SF
 {

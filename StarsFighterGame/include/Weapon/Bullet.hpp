@@ -17,12 +17,13 @@ namespace SF
 		//! Default team id for the bullet, used for identification of a groups objects in the game
 		static const uint32_t BulletDefaultTeamId = 1; 
 	public:
-		Bullet(World* InWorld, Actor* InOwner, const std::filesystem::path& FilePath, float Speed = 0.f, float Damage = -10.f, const std::string& InName = "Bullet");
+		Bullet(World* InWorld, Actor* InOwner, const std::filesystem::path& FilePath, float Speed = 0.f, float Damage = -10.f, bool IsAnimated = false, const std::string& InName = "Bullet");
 		
 		virtual void Tick(float DeltaTime) override;
 		virtual void BeginPlay() override;
 		virtual void OnActorBeginOverlap(Actor* OtherActor) override;
 		virtual void OnActorEndOverlap(Actor* OtherActor) override;
+		virtual bool IsNotBullet() const override { return false; }
 
 		//! Set the speed of the bullet
 		void SetSpeed(float InSpeed);

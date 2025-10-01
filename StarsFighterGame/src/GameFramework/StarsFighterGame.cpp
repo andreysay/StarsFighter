@@ -6,13 +6,8 @@
 *  Copyright 2025 Nesstronic. All rights reserved.
 */
 #include "GameFramework/StarsFighterGame.hpp"
-#include "framework/World.hpp"
-#include "framework/GameBaseApp.hpp"
-#include "framework/Core.hpp"
-#include "Spaceship/Spaceship.hpp"
 #include "framework/AssetManager.hpp"
-#include "Player/PlayerSpaceship.hpp"
-#include "Enemy/Vanguard.hpp"
+#include "Levels/Level_1.hpp"
 #include "Config.h"
 
 
@@ -27,37 +22,13 @@ namespace SF
 	// Constants for the game window size and title
 	const Vector2u WindowSize{ 750, 1334 };
 	const std::string_view GameTitle{ "StarsFigher" };
-	const float Velocity{ -200.f }; // Default spaceship velocity
-	const Vector2f PlayerStartPosition = { WindowSize.x * 0.5f, WindowSize.y * 0.8f };
-	const Vector2f ActorStartPosition = { WindowSize.x * 0.5f, WindowSize.y * 0.1f };
 	//--------------------------------------------------------------------------------------------------------
     StarsFigherGame::StarsFigherGame()
 		: GameBaseApp{ WindowSize, std::string{GameTitle}, sf::Style::Titlebar | sf::Style::Close }
 	{
 		// Set the asset root directory
 		AssetManager::Get().SetAssetRootDirectory(GetResourceDir());
-		std::weak_ptr<World> WeakNewWorld = LoadWorld<World>();
-		if (auto NewWorld = WeakNewWorld.lock())
-		{
-			auto PlayerOwnSpaceShip = NewWorld->SpawnActor<PlayerSpaceship>(PlayerSpaceshipTexturePath);
-			if (auto SpaceShipPtr = PlayerOwnSpaceShip.lock())
-			{
-				SpaceShipPtr->SetActorLocation(PlayerStartPosition);
-				SpaceShipPtr->SetVelocity(sf::Vector2f(0.f, Velocity));
-			}
-
-			const std::filesystem::path FilePath = "SpaceShooterRedux/PNG/playerShip3_red.png";
-			auto VanguardShip = NewWorld->SpawnActor<Vanguard>();
-			if (auto VanguardShipPtr = VanguardShip.lock())
-			{
-				VanguardShipPtr->SetActorLocation(ActorStartPosition);
-			}
-
-		}
-		else
-		{
-			WriteLog(GLog, GLoglevel, "Failed to load world");
-		}
+		std::weak_ptr<Level_1> WeakNewWorld = LoadWorld<Level_1>();
 	}
 
 }// namespace SF

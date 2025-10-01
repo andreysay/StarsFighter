@@ -14,7 +14,8 @@ namespace SF
 	class Particle : public Actor
 	{
 	public:
-		Particle(World* InWorld, const std::filesystem::path& FilePath, const std::string& InName = "Particle");
+		Particle() = delete;
+		explicit Particle(World* InWorld, const std::filesystem::path& FilePath, bool IsAnimated = false, const std::string& InName = "Particle");
 		Particle(const Particle&) = delete;
 		Particle(Particle&&) = delete;
 		Particle& operator=(const Particle&) = delete;
@@ -32,8 +33,8 @@ namespace SF
 		void FadeOut(float DeltaTime);
 
 	private:
-		sf::Vector2f Velocity{ 0.f, 0.f }; // Particle velocity
-		float Lifetime{ 1.f }; // Particle lifetime in seconds
-		sf::Clock Timer{}; // Timer to track particle lifetime
+		sf::Vector2f Velocity; // Particle velocity
+		float Lifetime; // Particle lifetime in seconds
+		sf::Clock Timer; // Timer to track particle lifetime
 	};
 }

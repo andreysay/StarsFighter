@@ -7,8 +7,8 @@
 */
 #include "Enemy/EnemySpaceship.hpp"
 //----------------------------------------------------------------------------------------------------------------------------------------------
-SF::EnemySpaceship::EnemySpaceship(World* InWorld, const std::filesystem::path& FilePath, float InCollisionDamage, const std::string& InName)
-	: Spaceship{ InWorld, FilePath, InName }
+SF::EnemySpaceship::EnemySpaceship(World* InWorld, const std::filesystem::path& FilePath, float InCollisionDamage, bool IsAnimated, const std::string& InName)
+	: Spaceship{ InWorld, FilePath, IsAnimated, InName }
 	, CollisionDamage{ InCollisionDamage }
 {
 }
